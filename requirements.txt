@@ -27,7 +27,6 @@ nltk
 textblob
 spacy
 sentence-transformers
-textract
 dash
 flask
 fastapi
