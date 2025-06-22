@@ -1,7 +1,7 @@
 import pandas as pd
 import json
 import os
-import magic
+# import magic
 import fitz
 import yaml
 
@@ -30,6 +30,6 @@ def extract_text_from_pdf(path):
     doc=fitz.open(path)
     return '\n'.join([page.get_text() for page in doc])
 
-def get_file_type(path):
-    mime = magic.Magic(mime=True)
-    return mime.from_file(path)
+# def get_file_type(path):
+#     mime = magic.Magic(mime=True)
+#     return mime.from_file(path)

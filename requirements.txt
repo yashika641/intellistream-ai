@@ -32,3 +32,15 @@ flask
 fastapi
 streamlit
 statsmodels
+xgboost
+lightgbm
+catboost
+optuna
+tools
+fastai
+openai
+azure-ai-textanalytics
+python-magic-bin
+python-magic
+libmagic
+pyarrow
