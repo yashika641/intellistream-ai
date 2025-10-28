@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/654205473056319555/48bcb159ceed49eb9eee76135cd1af13/artifacts
+end_time: 1761658912332
+entry_point_name: ''
+experiment_id: '654205473056319555'
+lifecycle_stage: active
+run_id: 48bcb159ceed49eb9eee76135cd1af13
+run_name: GradientBoosting
+run_uuid: 48bcb159ceed49eb9eee76135cd1af13
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761658886196
+status: 3
+tags: []
+user_id: palya

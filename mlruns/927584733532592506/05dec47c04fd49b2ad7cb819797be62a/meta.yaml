@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/927584733532592506/05dec47c04fd49b2ad7cb819797be62a/artifacts
+end_time: 1761660179676
+entry_point_name: ''
+experiment_id: '927584733532592506'
+lifecycle_stage: active
+run_id: 05dec47c04fd49b2ad7cb819797be62a
+run_name: LogisticRegression
+run_uuid: 05dec47c04fd49b2ad7cb819797be62a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761660174834
+status: 3
+tags: []
+user_id: palya

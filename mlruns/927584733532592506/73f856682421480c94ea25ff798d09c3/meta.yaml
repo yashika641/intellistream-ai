@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/927584733532592506/73f856682421480c94ea25ff798d09c3/artifacts
+end_time: 1761660670563
+entry_point_name: ''
+experiment_id: '927584733532592506'
+lifecycle_stage: active
+run_id: 73f856682421480c94ea25ff798d09c3
+run_name: DeepLearning_BERTDense
+run_uuid: 73f856682421480c94ea25ff798d09c3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761660654118
+status: 3
+tags: []
+user_id: palya

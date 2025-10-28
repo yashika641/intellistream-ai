@@ -1,0 +1,20 @@
+artifact_path: models/BERTDense
+flavors:
+  python_function:
+    data: data
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.tensorflow
+    python_version: 3.10.19
+  tensorflow:
+    code: null
+    data: data
+    keras_version: 2.15.0
+    model_type: keras
+    save_format: tf
+mlflow_version: 2.16.0
+model_size_bytes: 4520142
+model_uuid: 6272174c2ccc42179e674260771a8fef
+run_id: 4802a0b84d6341589ebb567cae4240aa
+utc_time_created: '2025-10-28 13:44:40.030424'

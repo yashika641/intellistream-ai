@@ -1,64 +1,91 @@
-import os 
-import numpy as np
-import pandas as pd
-from sklearn.model_selection import train_test_split
-import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from sklearn.metrics import mean_squared_error
-from sklearn.metrics.pairwise import cosine_similarity
-from utils.logger import get_logger
-from utils.file_handler import load_csv,save_csv
-from sklearn.preprocessing import LabelEncoder,StandardScaler
+import tensorflow as tf
+import tensorflow_datasets as tfds
+import tensorflow_recommenders as tfrs
 
-logger=get_logger(name='recommender syatem')
+# Load and preprocess data
+def load_data():
+    ratings = tfds.load("movielens/100k-ratings", split="train")
+    movies = tfds.load("movielens/100k-movies", split="train")
 
-def preprocessing(df):
-    try:
-        print(df.head(10))
-        print(df.isna().sum())
-        print(df.dtypes)
-        df.dropna(inplace=True)
-        df.drop_duplicates(inplace=True)
-        categorical_cols=df.select_dtypes(include=['object']).columns
-        for col in categorical_cols:
-            le=LabelEncoder()
-            df[col]=le.fit_transform(df[col])
-        
-        numerical_cols=df.select_dtypes(include=['float64','int64']).columns
-        for col in numerical_cols :
-            scaler=StandardScaler()
-            df[col]=scaler.fit_transform(df[[col]])
-        print(df.head(10))
-        return df
-    except Exception as e:
-        logger.error('error while preprocessing data,%s',e)
-        raise
-    
-def feature_engineering(df):
-    try:
-        print(df.shape)
-        df["engagement_ratio"] = df["watch_percentage"] / 100
-        df["content_age"] = 2025 - df["release_year"]
-        df["user_content_age_gap"] = df["user_age"] - df["content_age"]
-        df["rating_per_minute"] = df["rating"] / (df["duration_minutes"] + 1e-3)
-        df["watch_time_minutes"] = (df["duration_minutes"] * df["watch_percentage"]) / 100
-        df["is_long_content"] = (df["duration_minutes"] > 90).astype(int)
-        print(df.shape)
-        print(df.head(10))
-        return df
-    except Exception as e:
-        logger.error('feature engineering failing%s'.e)
-        raise
-    
-def split_data(df):
-    return    
+    ratings = ratings.map(lambda x: {
+        "user_id": x["user_id"],
+        "movie_title": x["movie_title"]
+    })
 
+    movie_titles = movies.map(lambda x: x["movie_title"])
+
+    unique_user_ids = set()
+    for x in ratings.map(lambda x: x["user_id"]).batch(1000).unique().as_numpy_iterator():
+        for user in x:
+            unique_user_ids.add(user.decode("utf-8"))
+
+    unique_movie_titles = set()
+    for x in movie_titles.batch(1000).unique().as_numpy_iterator():
+        for title in x:
+            unique_movie_titles.add(title.decode("utf-8"))
+
+    return ratings, movie_titles, sorted(unique_user_ids), sorted(unique_movie_titles)
+
+# User and movie models
+def build_user_model(user_ids):
+    return tf.keras.Sequential([
+        tf.keras.layers.StringLookup(vocabulary=user_ids, mask_token=None),
+        tf.keras.layers.Embedding(input_dim=len(user_ids) + 1, output_dim=32)
+    ])
+
+def build_movie_model(movie_titles):
+    return tf.keras.Sequential([
+        tf.keras.layers.StringLookup(vocabulary=movie_titles, mask_token=None),
+        tf.keras.layers.Embedding(input_dim=len(movie_titles) + 1, output_dim=32)
+    ])
+
+# Full retrieval model
+class MovielensModel(tfrs.models.Model):
+    def __init__(self, user_model, movie_model, task):
+        super().__init__()
+        self.user_model = user_model
+        self.movie_model = movie_model
+        self.task = task
+
+    def compute_loss(self, features, training=False):
+        user_embeddings = self.user_model(features["user_id"])
+        movie_embeddings = self.movie_model(features["movie_title"])
+        return self.task(user_embeddings, movie_embeddings)
+
+# Main driver
 def main():
-    df=load_csv(r'C:\Users\palya\Desktop\intellistream\intellistream-ai\docs\Full_Netflix_Dataset.csv')
-    df=preprocessing(df)
-    df=feature_engineering(df)
-    
+    print("⏳ Loading data...")
+    ratings, movie_titles_ds, unique_user_ids, unique_movie_titles = load_data()
 
-if __name__=='__main__':
+    print("✅ Building models...")
+    user_model = build_user_model(unique_user_ids)
+    movie_model = build_movie_model(unique_movie_titles)
+
+    retrieval_task = tfrs.tasks.Retrieval(
+        metrics=tfrs.metrics.FactorizedTopK(
+            candidates=movie_titles_ds.batch(128).map(lambda x: (x, movie_model(x)))
+        )
+    )
+
+    model = MovielensModel(user_model, movie_model, retrieval_task)
+    model.compile(optimizer=tf.keras.optimizers.Adagrad(0.5))
+
+    train_data = ratings.shuffle(100_000).batch(4096).cache()
+
+    print("🔧 Training model...")
+    model.fit(train_data, epochs=3)
+
+    print("🔍 Building retrieval index...")
+    index = tfrs.layers.factorized_top_k.BruteForce(model.user_model)
+    index.index_from_dataset(
+        movie_titles_ds.map(lambda title: (title, movie_model(title))).batch(100)
+    )
+
+    user_id = "42"
+    print(f"\n🎯 Top 5 movie recommendations for user {user_id}:")
+    _, titles = index(tf.constant([user_id]))
+    for i, title in enumerate(titles[0, :5].numpy()):
+        print(f"{i + 1}. {title.decode('utf-8')}")
+
+if __name__ == "__main__":
     main()
-    

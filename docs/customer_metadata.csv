@@ -1,0 +1,251 @@
+customer_id,name,gender,age,country,subscription_plan,signup_date,last_login,total_watch_hours,avg_watch_per_week,device_type,payment_method,tenure_months,churned,preferred_genre,total_movies_watched,satisfaction_score,complaints_raised,auto_renewal_enabled
+C0001,Tara,Other,45,United States,Free Trial,2024-01-25,,227.27,2.71,Mobile,Debit Card,21,1,Drama,389,4.59,0,0
+C0002,Mark,Male,66,Australia,Basic,2024-10-31,2026-03-21,30.96,0.65,Tablet,UPI,12,0,Drama,224,8.07,0,1
+C0003,Christina,Male,64,Germany,Free Trial,2023-04-19,2024-12-08,766.2,6.39,Tablet,Credit Card,30,1,Romance,193,6.2,0,1
+C0004,Kyle,Male,32,Australia,Free Trial,2023-05-14,2026-07-17,506.63,4.37,Tablet,UPI,29,0,Documentary,45,5.12,1,1
+C0005,Ian,Other,58,India,Basic,2024-06-09,2027-01-23,298.22,4.66,Laptop,PayPal,16,0,Romance,369,7.89,0,0
+C0006,Sherry,Male,70,United States,Standard,2023-03-28,2025-06-12,741.06,5.98,Tablet,UPI,31,1,Science Fiction,441,7.97,0,0
+C0007,Richard,Male,34,India,Basic,2024-03-05,2024-08-17,754.9,9.93,Smart TV,NetBanking,19,1,Science Fiction,212,7.8,0,1
+C0008,Laura,Male,58,India,Premium,2025-02-22,2027-08-18,325.53,10.17,Mobile,PayPal,8,0,Drama,262,4.8,0,0
+C0009,Taylor,Other,52,Australia,Standard,2023-01-21,2025-04-11,379.76,2.88,Smart TV,Credit Card,33,1,Romance,15,8.99,0,0
+C0010,Sarah,Other,37,Australia,Basic,2023-09-03,2025-05-26,368.44,3.68,Laptop,UPI,25,1,Science Fiction,266,5.53,0,0
+C0011,John,Male,21,India,Free Trial,2024-09-17,2025-09-12,625.11,12.02,Mobile,PayPal,13,0,Comedy,260,7.47,2,1
+C0012,Mary,Male,52,Australia,Basic,2023-09-07,2024-02-25,430.84,4.31,Smart TV,PayPal,25,1,Drama,291,6.76,0,1
+C0013,William,Other,32,United States,Free Trial,2025-03-01,2027-05-04,418.88,14.96,Mobile,Debit Card,7,0,Action,20,4.37,0,0
+C0014,Tiffany,Other,54,France,Premium,2023-03-19,2023-09-03,689.11,5.56,Laptop,PayPal,31,1,Action,258,5.62,0,0
+C0015,Gail,Male,43,Canada,Standard,2025-10-26,2028-03-07,86.58,86.58,Mobile,Debit Card,0,0,Thriller,452,6.38,0,0
+C0016,Dean,Other,24,United States,Free Trial,2024-04-30,2025-06-26,364.4,5.06,Mobile,Debit Card,18,1,Thriller,457,6.68,0,1
+C0017,Chelsey,Female,36,Germany,Premium,2023-10-30,2024-11-03,390.27,4.07,Laptop,Debit Card,24,1,Documentary,204,4.34,3,1
+C0018,Brittany,Male,50,United States,Basic,2024-03-07,2025-12-04,56.2,0.74,Mobile,NetBanking,19,0,Science Fiction,39,8.34,3,0
+C0019,Jason,Female,60,France,Standard,2024-03-05,2024-08-21,195.81,2.58,Smart TV,Debit Card,19,1,Action,306,7.3,0,0
+C0020,Christopher,Male,47,France,Free Trial,2024-07-18,2026-05-22,322.67,5.38,Mobile,NetBanking,15,0,Science Fiction,485,6.65,0,0
+C0021,Kevin,Other,63,United Kingdom,Free Trial,2022-12-01,2024-03-11,114.64,0.84,Smart TV,Credit Card,34,1,Romance,199,9.1,0,1
+C0022,Sierra,Male,61,Canada,Standard,2024-07-05,2025-05-06,712.87,11.88,Tablet,UPI,15,1,Science Fiction,319,5.58,0,1
+C0023,Ronald,Male,65,Germany,Premium,2024-07-12,2024-11-23,344.62,5.74,Mobile,Credit Card,15,1,Romance,180,,0,1
+C0024,Kim,Male,20,United Kingdom,Standard,2025-01-24,2025-07-27,555.91,15.44,Mobile,UPI,9,1,Drama,308,8.84,0,1
+C0025,Richard,Male,28,Australia,Basic,2023-08-02,2024-11-04,536.88,5.16,Tablet,Credit Card,26,1,Romance,218,9.13,0,0
+C0026,Sara,Other,24,Germany,Free Trial,2024-05-14,2025-06-15,272.43,4.01,Tablet,Debit Card,17,1,Thriller,425,9.01,0,0
+C0027,Karen,Female,35,Australia,Free Trial,2022-11-19,2024-01-31,373.64,2.67,Smart TV,UPI,35,1,Romance,124,9.05,1,1
+C0028,James,Other,34,United States,Free Trial,2024-05-10,2027-04-18,785.11,11.55,Tablet,UPI,17,0,Comedy,459,4.16,0,0
+C0029,Paige,Other,69,France,Basic,2023-05-11,2025-03-13,787.55,6.79,Smart TV,PayPal,29,1,Action,140,7.34,3,0
+C0030,Maria,Other,44,United Kingdom,Premium,2023-08-30,2024-02-19,737.41,7.09,Smart TV,NetBanking,26,1,Comedy,378,8.92,0,1
+C0031,Jay,Other,18,United Kingdom,Standard,2023-03-21,2024-01-05,535.29,4.32,Laptop,PayPal,31,1,Thriller,325,9.24,0,1
+C0032,Erica,Female,50,Canada,Standard,2024-01-20,2025-12-09,359.31,4.28,Mobile,Debit Card,21,0,Drama,417,8.6,0,0
+C0033,Deanna,Female,44,Canada,Basic,2025-10-09,2027-08-05,167.31,167.31,Tablet,PayPal,0,0,Action,253,,0,0
+C0034,Thomas,Male,69,Canada,Premium,2022-11-19,2025-03-16,528.29,3.77,Mobile,NetBanking,35,1,Action,463,8.99,3,0
+C0035,James,Other,70,Canada,Premium,2025-02-13,2026-08-07,105.87,3.31,Tablet,Debit Card,8,0,Drama,296,7.87,0,1
+C0036,Gary,Female,46,United States,Standard,2024-01-08,2026-10-06,603.9,7.19,Laptop,UPI,21,0,Documentary,276,8.44,0,0
+C0037,Danielle,Female,44,United Kingdom,Premium,2025-03-12,2027-02-27,436.72,15.6,Tablet,Credit Card,7,0,Drama,88,6.22,0,0
+C0038,Nina,Female,18,United Kingdom,Standard,2023-11-26,2025-02-21,317.69,3.45,Tablet,PayPal,23,1,Documentary,448,8.03,0,1
+C0039,Teresa,Female,39,Canada,Premium,2025-10-19,2028-11-24,441.44,441.44,Laptop,PayPal,0,0,Comedy,149,6.83,0,0
+C0040,Elizabeth,Female,29,United States,Standard,2024-02-19,2024-12-06,431.96,5.4,Tablet,UPI,20,1,Thriller,52,7.85,0,0
+C0041,Jennifer,Female,19,Canada,Free Trial,2023-04-14,2024-07-20,276.63,2.31,Smart TV,Debit Card,30,1,Thriller,225,9.52,0,0
+C0042,Teresa,Other,27,India,Basic,2025-10-13,2026-04-01,524.89,524.89,Tablet,Credit Card,0,0,Documentary,136,,0,0
+C0043,Rebecca,Male,37,United States,Free Trial,2023-08-02,2026-10-30,377.38,3.63,Smart TV,NetBanking,26,0,Romance,320,4.97,0,0
+C0044,Paul,Other,68,United States,Standard,2023-03-25,2025-05-31,574.86,4.64,Tablet,UPI,31,1,Action,134,8.82,2,0
+C0045,William,Other,27,Germany,Basic,2024-07-14,2025-01-01,279.57,4.66,Smart TV,NetBanking,15,1,Documentary,231,6.84,0,1
+C0046,Kyle,Female,46,India,Premium,2024-04-10,2027-05-17,377.25,5.24,Tablet,UPI,18,0,Documentary,446,5.56,0,0
+C0047,Crystal,Other,18,France,Basic,2025-04-08,2025-07-05,266.76,11.12,Mobile,Debit Card,6,1,Thriller,184,8.63,0,1
+C0048,Jennifer,Female,32,Germany,Basic,2023-08-24,2026-01-02,608.95,5.86,Smart TV,NetBanking,26,0,Science Fiction,239,8.13,0,0
+C0049,Toni,Female,34,India,Free Trial,2025-01-13,2027-03-09,429.43,11.93,Laptop,UPI,9,0,Thriller,190,7.19,0,1
+C0050,Sean,Male,30,United Kingdom,Basic,2025-05-24,2026-02-22,761.19,38.06,Smart TV,Debit Card,5,0,Science Fiction,257,5.26,0,1
+C0051,Patricia,Other,66,Germany,Free Trial,2024-08-01,,431.97,7.71,Mobile,NetBanking,14,1,Romance,37,,0,0
+C0052,Vincent,Female,49,United States,Free Trial,2023-05-27,2025-01-28,357.97,3.09,Laptop,Debit Card,29,1,Drama,451,5.46,0,0
+C0053,Jennifer,Other,42,Germany,Premium,2023-09-30,2026-12-25,77.29,0.77,Smart TV,NetBanking,25,0,Drama,320,8.43,0,0
+C0054,Christopher,Female,60,United States,Basic,2025-04-17,2027-10-12,500.61,20.86,Laptop,Debit Card,6,0,Comedy,400,4.58,0,0
+C0055,Michael,Other,47,United States,Basic,2023-03-08,2026-05-11,12.11,0.1,Smart TV,NetBanking,31,0,Thriller,26,6.73,0,1
+C0056,Trevor,Other,65,Australia,Standard,2025-09-16,2026-11-25,440.2,110.05,Tablet,Credit Card,1,0,Science Fiction,82,5.54,1,1
+C0057,Andrea,Other,38,France,Standard,2023-07-13,2026-03-28,562.79,5.21,Mobile,Credit Card,27,0,Romance,51,6.86,0,1
+C0058,Andrew,Other,20,Australia,Basic,2025-06-23,2026-11-03,670.41,41.9,Tablet,NetBanking,4,0,Comedy,401,4.12,0,1
+C0059,John,Female,38,Canada,Free Trial,2025-01-11,2027-08-04,153.38,4.26,Laptop,UPI,9,0,Comedy,56,8.72,0,1
+C0060,Samuel,Male,67,Germany,Free Trial,2025-10-06,2028-02-26,237.69,237.69,Tablet,PayPal,0,0,Thriller,242,7.19,2,1
+C0061,Amanda,Female,46,Canada,Premium,2023-10-23,2024-03-12,295.81,3.08,Mobile,Credit Card,24,1,Documentary,36,6.56,0,0
+C0062,Christopher,Male,59,Australia,Basic,2024-11-25,2026-04-29,255.49,5.81,Tablet,UPI,11,0,Action,440,4.54,0,1
+C0063,Kim,Male,35,Australia,Premium,2024-12-23,2027-11-30,338.24,8.46,Smart TV,NetBanking,10,0,Thriller,292,5.41,1,0
+C0064,Stephanie,Female,52,Germany,Standard,2025-10-13,2027-05-13,233.44,233.44,Smart TV,NetBanking,0,0,Romance,347,7.36,0,0
+C0065,Kathleen,Male,38,Canada,Premium,2024-06-01,2027-07-18,746.95,11.67,Tablet,PayPal,16,0,Documentary,302,8.05,0,1
+C0066,Laura,Male,51,Germany,Free Trial,2025-08-06,2026-07-13,39.25,4.91,Laptop,PayPal,2,0,Comedy,61,5.93,0,1
+C0067,Gerald,Female,58,Canada,Premium,2025-06-27,2026-06-08,627.4,39.21,Mobile,NetBanking,4,0,Romance,342,8.02,2,1
+C0068,Jennifer,Female,28,Canada,Standard,2023-12-13,2024-05-31,550.68,6.26,Mobile,Credit Card,22,1,Romance,232,8.33,0,0
+C0069,Thomas,Male,29,United States,Premium,2023-05-14,2025-04-07,241.76,2.08,Laptop,PayPal,29,1,Romance,220,5.42,0,0
+C0070,Craig,Other,52,India,Free Trial,2023-08-21,2024-07-09,513.94,4.94,Tablet,UPI,26,1,Thriller,421,4.05,0,1
+C0071,Michelle,Male,42,France,Standard,2025-09-13,2027-06-17,345.2,86.3,Smart TV,UPI,1,0,Romance,206,5.75,0,0
+C0072,Brent,Other,65,Germany,Standard,2023-11-17,2024-01-30,530.0,5.76,Laptop,NetBanking,23,1,Romance,452,,0,0
+C0073,Hannah,Other,24,Canada,Free Trial,2023-07-02,2025-07-22,160.2,1.48,Smart TV,PayPal,27,1,Romance,347,8.18,0,0
+C0074,Paula,Other,41,France,Standard,2025-01-10,2025-04-18,588.56,16.35,Laptop,UPI,9,1,Action,222,5.89,0,0
+C0075,Joann,Other,41,United States,Premium,2024-04-30,2027-02-10,243.16,3.38,Mobile,UPI,18,0,Documentary,48,4.67,1,1
+C0076,Malik,Male,61,India,Premium,2023-05-23,2026-06-24,301.18,2.6,Mobile,NetBanking,29,0,Science Fiction,431,7.39,0,1
+C0077,Mark,Male,26,United States,Free Trial,2023-09-16,2026-12-08,491.96,4.92,Smart TV,PayPal,25,0,Science Fiction,475,8.78,0,1
+C0078,Lonnie,Other,65,Canada,Basic,2025-03-24,2025-12-16,710.93,25.39,Tablet,Credit Card,7,0,Drama,496,6.15,0,1
+C0079,Thomas,Male,41,United States,Standard,2025-04-15,2028-02-11,751.85,31.33,Smart TV,Credit Card,6,0,Romance,199,,0,1
+C0080,Charles,Male,68,United Kingdom,Basic,2025-06-01,2027-09-24,774.88,48.43,Laptop,NetBanking,4,0,Documentary,118,4.53,0,0
+C0081,Gabrielle,Other,18,United Kingdom,Basic,2025-09-20,2026-12-14,614.47,153.62,Laptop,NetBanking,1,0,Drama,129,8.72,0,0
+C0082,Glenn,Other,38,United States,Basic,2023-07-11,2025-01-04,96.84,0.9,Smart TV,Credit Card,27,1,Documentary,17,,0,0
+C0083,Jose,Female,50,India,Free Trial,2025-08-03,2026-05-19,425.61,53.2,Smart TV,PayPal,2,0,Science Fiction,195,6.6,0,0
+C0084,Jay,Male,38,France,Basic,2025-05-19,2025-08-20,388.4,19.42,Mobile,Debit Card,5,1,Thriller,374,4.63,0,0
+C0085,Richard,Male,68,Canada,Free Trial,2023-04-04,2024-11-17,472.44,3.94,Laptop,PayPal,30,1,Science Fiction,281,9.77,0,1
+C0086,Todd,Other,34,United Kingdom,Basic,2023-02-07,2025-09-18,336.91,2.63,Tablet,Credit Card,32,0,Documentary,58,6.41,0,1
+C0087,Peter,Other,25,Germany,Standard,2024-06-07,2025-01-09,83.65,1.31,Tablet,Credit Card,16,1,Action,76,6.16,0,1
+C0088,Wendy,Female,53,United Kingdom,Free Trial,2025-07-25,2027-04-05,287.8,23.98,Smart TV,NetBanking,3,0,Comedy,256,4.9,0,0
+C0089,Ariana,Male,29,United Kingdom,Standard,2025-06-23,2026-10-29,677.67,42.35,Smart TV,UPI,4,0,Documentary,339,7.56,0,1
+C0090,Brandon,Other,51,India,Premium,2022-12-26,2023-02-06,123.17,0.91,Tablet,PayPal,34,1,Science Fiction,334,4.82,0,0
+C0091,Robert,Male,66,France,Free Trial,2023-12-20,2025-12-17,256.19,2.91,Mobile,UPI,22,0,Romance,53,7.29,0,0
+C0092,Karl,Female,61,Canada,Premium,2025-01-24,2027-08-19,393.67,10.94,Smart TV,Credit Card,9,0,Thriller,272,5.25,3,0
+C0093,Heidi,Female,25,United States,Premium,2022-11-03,2024-02-27,483.47,3.45,Tablet,Debit Card,35,1,Action,402,9.48,2,1
+C0094,Patricia,Male,47,United States,Standard,2023-12-20,2024-10-09,565.9,6.43,Tablet,NetBanking,22,1,Comedy,191,7.87,0,1
+C0095,Jason,Other,41,United States,Premium,2024-08-04,2026-12-10,339.98,6.07,Mobile,Debit Card,14,0,Action,97,9.6,0,1
+C0096,Michael,Male,50,Canada,Free Trial,2024-11-23,2027-06-03,423.93,9.63,Laptop,UPI,11,0,Thriller,123,8.33,0,0
+C0097,Elaine,Other,22,India,Premium,2023-03-04,2025-03-22,656.97,5.3,Tablet,NetBanking,31,1,Documentary,141,4.6,0,0
+C0098,Dylan,Male,46,United States,Premium,2024-05-27,2027-01-01,706.82,10.39,Tablet,UPI,17,0,Science Fiction,452,7.62,0,1
+C0099,Amy,Male,59,Australia,Free Trial,2025-03-11,2026-10-24,288.03,10.29,Tablet,PayPal,7,0,Action,39,6.62,0,1
+C0100,John,Other,27,United States,Premium,2023-10-04,2026-12-12,593.75,6.18,Mobile,UPI,24,0,Action,343,8.7,0,1
+C0101,Gabriela,Female,41,United Kingdom,Premium,2024-01-12,2024-08-01,146.32,1.74,Tablet,UPI,21,1,Drama,278,9.75,0,0
+C0102,Levi,Female,23,France,Basic,2023-11-28,2024-04-13,521.37,5.67,Smart TV,UPI,23,1,Action,207,7.24,0,0
+C0103,Melissa,Other,62,Australia,Free Trial,2024-12-30,2027-04-11,569.98,14.25,Tablet,NetBanking,10,0,Action,415,6.18,0,0
+C0104,Ana,Male,22,United Kingdom,Free Trial,2023-06-30,,254.0,2.27,Mobile,UPI,28,1,Drama,108,8.44,0,0
+C0105,Carla,Male,44,United Kingdom,Basic,2025-04-15,2026-02-07,131.86,5.49,Tablet,NetBanking,6,0,Drama,424,8.47,0,1
+C0106,Cynthia,Female,61,France,Premium,2025-07-04,2027-03-09,629.2,52.43,Tablet,UPI,3,0,Drama,424,5.79,0,0
+C0107,Jennifer,Other,48,Australia,Standard,2023-04-13,2025-07-03,340.74,2.84,Mobile,NetBanking,30,1,Drama,80,8.65,0,0
+C0108,Roger,Female,40,United States,Premium,2022-11-24,2023-09-05,612.86,4.38,Mobile,PayPal,35,1,Romance,435,6.98,0,0
+C0109,Veronica,Male,20,United Kingdom,Premium,2025-05-12,2028-04-04,315.07,15.75,Laptop,PayPal,5,0,Action,486,4.16,2,0
+C0110,James,Male,67,United Kingdom,Basic,2025-08-31,2028-04-05,725.63,90.7,Smart TV,Credit Card,2,0,Action,290,8.84,0,1
+C0111,John,Other,50,France,Basic,2024-10-27,2025-03-03,514.77,10.72,Laptop,UPI,12,1,Comedy,473,4.64,0,0
+C0112,Luis,Male,51,France,Free Trial,2023-07-18,,288.72,2.67,Tablet,PayPal,27,1,Comedy,53,7.85,0,1
+C0113,Stephanie,Other,65,Australia,Standard,2024-10-25,2025-02-21,785.02,16.35,Laptop,Credit Card,12,1,Romance,44,6.07,0,0
+C0114,Isaiah,Male,22,Canada,Premium,2024-04-07,2026-04-28,652.67,9.06,Mobile,UPI,18,0,Drama,366,7.97,0,0
+C0115,Richard,Female,20,Australia,Basic,2025-10-20,,167.58,167.58,Smart TV,UPI,0,1,Action,213,5.8,0,1
+C0116,Justin,Female,29,Germany,Premium,2023-02-13,2023-06-20,272.22,2.13,Smart TV,NetBanking,32,1,Action,214,6.53,0,1
+C0117,April,Male,23,United Kingdom,Standard,2024-11-07,2026-06-06,584.39,13.28,Smart TV,PayPal,11,0,Action,102,9.77,0,1
+C0118,Thomas,Female,58,Australia,Free Trial,2024-08-21,2027-02-09,360.69,6.44,Mobile,PayPal,14,0,Thriller,455,,0,1
+C0119,Renee,Male,26,United States,Basic,2024-07-28,2026-09-10,602.42,10.04,Smart TV,UPI,15,0,Drama,321,4.83,0,1
+C0120,Christopher,Other,26,France,Standard,2023-04-21,2025-07-13,35.58,0.3,Tablet,UPI,30,1,Drama,200,9.5,0,0
+C0121,Lisa,Female,63,Germany,Basic,2024-09-26,2026-05-19,99.62,1.92,Smart TV,PayPal,13,0,Science Fiction,477,7.0,0,1
+C0122,Robert,Other,40,Canada,Free Trial,2024-10-23,2026-01-05,683.73,14.24,Smart TV,UPI,12,0,Thriller,54,8.14,0,1
+C0123,Sergio,Male,68,Germany,Free Trial,2023-11-15,2024-11-01,742.59,8.07,Smart TV,NetBanking,23,1,Science Fiction,124,6.1,1,0
+C0124,Michelle,Other,44,Australia,Premium,2022-11-19,2025-01-12,786.58,5.62,Mobile,Debit Card,35,1,Drama,168,4.5,0,1
+C0125,Greg,Male,45,France,Free Trial,2024-03-28,2026-02-05,365.48,4.81,Mobile,NetBanking,19,0,Science Fiction,434,4.74,0,0
+C0126,Scott,Female,30,Canada,Standard,2025-09-01,2026-08-10,137.95,34.49,Laptop,UPI,1,0,Science Fiction,275,9.5,0,0
+C0127,Joseph,Other,20,Australia,Free Trial,2024-10-21,2027-11-17,516.38,10.76,Mobile,Credit Card,12,0,Comedy,347,4.89,0,1
+C0128,Jamie,Other,37,Germany,Basic,2024-11-14,2026-06-09,615.9,14.0,Tablet,UPI,11,0,Thriller,465,4.18,0,1
+C0129,Zachary,Other,38,Canada,Standard,2024-08-17,2027-04-02,57.33,1.02,Tablet,Debit Card,14,0,Thriller,184,6.69,0,1
+C0130,Alexandria,Female,57,Germany,Basic,2025-09-10,2027-11-07,93.89,23.47,Laptop,UPI,1,0,Drama,136,5.55,0,1
+C0131,Amy,Male,31,France,Standard,2025-04-07,2027-02-06,135.88,5.66,Mobile,Credit Card,6,0,Comedy,264,9.1,3,1
+C0132,Charles,Male,34,Canada,Standard,2025-09-10,2027-05-09,707.05,176.76,Tablet,UPI,1,0,Science Fiction,14,5.66,0,1
+C0133,Kristin,Other,61,France,Free Trial,2023-05-08,2023-09-07,460.52,3.97,Laptop,Credit Card,29,1,Drama,207,5.67,0,1
+C0134,Lisa,Other,20,United States,Free Trial,2023-06-08,2025-09-21,789.56,7.05,Laptop,UPI,28,0,Comedy,111,8.38,0,1
+C0135,Benjamin,Other,39,France,Premium,2025-05-11,2028-02-05,127.66,6.38,Smart TV,PayPal,5,0,Comedy,173,9.4,0,1
+C0136,Scott,Other,48,United Kingdom,Basic,2023-11-15,2024-01-18,542.31,5.89,Mobile,NetBanking,23,1,Thriller,381,8.62,0,0
+C0137,Kelsey,Other,62,United States,Basic,2023-09-25,2026-07-04,506.93,5.07,Mobile,PayPal,25,0,Comedy,430,6.21,0,0
+C0138,Kathryn,Other,26,France,Basic,2023-05-06,2025-03-08,336.24,2.9,Smart TV,PayPal,29,1,Drama,481,8.49,0,0
+C0139,Steven,Other,48,India,Basic,2024-04-18,2027-04-29,765.78,10.64,Smart TV,NetBanking,18,0,Thriller,191,5.99,0,1
+C0140,Julie,Female,40,France,Standard,2024-03-01,2025-12-02,778.6,10.24,Smart TV,Credit Card,19,0,Romance,363,8.09,0,1
+C0141,Desiree,Other,23,United Kingdom,Premium,2023-05-05,2026-06-20,784.33,6.76,Smart TV,PayPal,29,0,Documentary,84,8.48,0,1
+C0142,Jenny,Male,21,Canada,Basic,2024-02-29,2025-06-11,435.48,5.44,Laptop,Credit Card,20,1,Comedy,325,4.8,0,0
+C0143,Christopher,Female,59,Germany,Premium,2025-03-18,2025-11-08,576.71,20.6,Laptop,UPI,7,0,Action,291,4.8,0,0
+C0144,Michael,Male,44,Australia,Basic,2024-08-02,2026-06-20,56.74,1.01,Mobile,PayPal,14,0,Documentary,283,7.33,0,0
+C0145,Donald,Female,36,Germany,Premium,2023-12-25,2026-11-03,601.71,6.84,Laptop,NetBanking,22,0,Documentary,14,9.09,0,0
+C0146,Laura,Other,39,Australia,Standard,2024-12-29,2027-09-13,648.96,16.22,Laptop,Debit Card,10,0,Romance,141,6.66,0,0
+C0147,Lee,Male,34,Germany,Basic,2024-08-23,2026-12-31,417.07,7.45,Tablet,UPI,14,0,Action,81,4.55,0,0
+C0148,Denise,Female,28,Germany,Standard,2022-12-28,2024-12-02,581.08,4.27,Mobile,UPI,34,1,Action,130,6.09,0,1
+C0149,Jeffrey,Other,69,Canada,Basic,2023-06-05,2025-07-26,183.11,1.63,Laptop,NetBanking,28,1,Drama,320,6.64,0,1
+C0150,Christina,Other,52,India,Basic,2024-12-25,2025-07-10,427.26,10.68,Smart TV,NetBanking,10,1,Romance,41,7.27,0,0
+C0151,Jacob,Male,50,Germany,Premium,2024-04-18,2026-11-08,172.27,2.39,Mobile,NetBanking,18,0,Comedy,238,9.21,0,1
+C0152,Lisa,Male,45,United Kingdom,Free Trial,2024-06-19,2027-02-20,253.45,3.96,Mobile,Credit Card,16,0,Action,391,8.74,0,0
+C0153,Dennis,Female,42,Germany,Premium,2025-10-04,,333.0,333.0,Tablet,Credit Card,0,1,Documentary,383,7.72,0,1
+C0154,Lauren,Male,37,Germany,Premium,2024-07-31,2027-09-08,689.63,11.49,Tablet,Debit Card,15,0,Action,280,7.12,1,0
+C0155,Pamela,Male,31,United States,Free Trial,2023-10-17,2025-04-05,132.55,1.38,Mobile,PayPal,24,1,Drama,67,8.21,3,0
+C0156,Cory,Other,36,India,Standard,2024-08-11,2024-12-18,44.95,0.8,Smart TV,Debit Card,14,1,Thriller,452,5.26,0,0
+C0157,Kayla,Other,61,Germany,Premium,2023-10-19,2025-07-28,788.7,8.22,Mobile,UPI,24,1,Comedy,41,5.74,0,0
+C0158,Brittany,Male,32,United Kingdom,Basic,2024-12-20,2027-03-10,261.8,6.54,Tablet,Credit Card,10,0,Thriller,104,5.74,0,1
+C0159,Peter,Female,41,United States,Basic,2024-10-15,2028-01-09,339.04,7.06,Mobile,UPI,12,0,Comedy,114,5.41,0,0
+C0160,Janet,Female,31,Australia,Standard,2024-03-22,2026-06-02,486.31,6.4,Smart TV,Credit Card,19,0,Documentary,310,8.67,0,0
+C0161,Katherine,Female,33,France,Standard,2025-10-14,2027-01-20,770.04,770.04,Smart TV,PayPal,0,0,Action,478,8.38,0,0
+C0162,Linda,Male,41,United Kingdom,Premium,2025-03-28,2027-12-07,293.82,10.49,Mobile,NetBanking,7,0,Romance,248,9.12,3,1
+C0163,James,Female,32,Germany,Basic,2025-03-11,2026-07-07,22.81,0.81,Tablet,NetBanking,7,0,Comedy,223,7.36,0,0
+C0164,Brian,Male,26,Canada,Premium,2023-06-04,2025-05-25,659.06,5.88,Laptop,NetBanking,28,1,Science Fiction,96,6.85,0,1
+C0165,Jessica,Male,63,India,Free Trial,2024-02-20,2024-07-19,672.86,8.41,Laptop,NetBanking,20,1,Action,401,7.88,1,0
+C0166,Angela,Other,53,Germany,Free Trial,2025-05-22,2028-01-10,498.09,24.9,Mobile,NetBanking,5,0,Science Fiction,347,9.29,0,0
+C0167,Marcus,Male,24,France,Basic,2025-01-10,2026-08-25,236.48,6.57,Laptop,Debit Card,9,0,Comedy,422,7.91,0,0
+C0168,Michael,Other,32,United Kingdom,Free Trial,2023-01-09,2026-01-21,290.01,2.2,Mobile,Credit Card,33,0,Documentary,217,6.16,0,0
+C0169,Jenny,Other,68,United Kingdom,Free Trial,2025-03-13,2027-07-21,446.63,15.95,Mobile,Debit Card,7,0,Action,52,8.08,0,1
+C0170,Cassandra,Other,54,Canada,Free Trial,2023-12-28,2025-04-03,556.91,6.33,Laptop,UPI,22,1,Comedy,48,4.27,0,1
+C0171,Mario,Other,42,Canada,Standard,2023-10-11,2023-12-12,473.76,4.93,Tablet,Debit Card,24,1,Documentary,485,8.76,1,0
+C0172,William,Female,19,Canada,Standard,2023-05-12,2023-11-18,779.72,6.72,Tablet,PayPal,29,1,Action,48,5.35,0,1
+C0173,Travis,Other,22,United States,Standard,2023-01-21,2024-06-01,753.5,5.71,Laptop,PayPal,33,1,Thriller,204,7.4,2,0
+C0174,Mary,Male,26,United States,Basic,2023-07-13,2024-06-22,260.18,2.41,Tablet,PayPal,27,1,Action,237,9.47,0,1
+C0175,Michelle,Female,18,United Kingdom,Premium,2025-01-02,2028-03-17,332.35,9.23,Tablet,Credit Card,9,0,Action,315,7.21,0,1
+C0176,Mike,Female,27,United States,Basic,2024-06-14,2027-09-02,782.76,12.23,Tablet,UPI,16,0,Comedy,96,7.97,2,1
+C0177,Shawn,Female,24,India,Standard,2023-12-21,2026-05-31,628.31,7.14,Mobile,PayPal,22,0,Romance,330,5.43,0,0
+C0178,Nicole,Female,38,France,Basic,2025-10-20,2027-09-30,310.11,310.11,Tablet,UPI,0,0,Documentary,427,5.94,0,0
+C0179,Randall,Female,35,Australia,Premium,2024-05-27,2025-06-24,775.29,11.4,Smart TV,Credit Card,17,1,Romance,304,7.67,0,1
+C0180,Susan,Female,69,United Kingdom,Free Trial,2023-08-25,2026-11-21,797.84,7.67,Tablet,PayPal,26,0,Drama,497,7.19,0,0
+C0181,Amber,Other,50,Australia,Premium,2023-06-14,2024-04-24,201.2,1.8,Mobile,UPI,28,1,Science Fiction,203,6.45,3,1
+C0182,Shannon,Other,59,Canada,Premium,2024-06-30,2027-08-03,732.38,11.44,Smart TV,PayPal,16,0,Action,191,7.81,0,0
+C0183,Thomas,Female,43,Germany,Basic,2025-06-09,,214.4,13.4,Smart TV,Credit Card,4,1,Comedy,362,7.24,0,1
+C0184,Stephen,Female,68,India,Premium,2025-03-06,2027-12-19,338.62,12.09,Smart TV,PayPal,7,0,Action,82,9.46,0,1
+C0185,Curtis,Other,69,India,Basic,2025-03-08,2025-10-23,560.44,20.02,Laptop,NetBanking,7,0,Romance,373,4.26,2,0
+C0186,Daniel,Female,19,Canada,Basic,2025-01-30,2026-01-22,346.83,9.63,Tablet,NetBanking,9,0,Thriller,104,6.35,0,1
+C0187,Richard,Female,38,India,Premium,2024-11-07,2027-05-05,566.74,12.88,Mobile,UPI,11,0,Drama,417,8.08,0,0
+C0188,Kayla,Other,29,Australia,Standard,2023-05-12,2026-03-09,514.9,4.44,Mobile,Debit Card,29,0,Comedy,68,6.28,0,1
+C0189,Amanda,Other,42,Germany,Basic,2024-07-11,2026-05-13,251.25,4.19,Tablet,NetBanking,15,0,Drama,208,4.82,0,0
+C0190,Rebekah,Female,26,India,Premium,2023-02-17,2024-03-07,396.82,3.1,Tablet,PayPal,32,1,Drama,327,8.88,2,0
+C0191,Katherine,Male,35,India,Standard,2024-10-29,2027-09-01,673.51,14.03,Laptop,PayPal,12,0,Thriller,417,7.28,0,1
+C0192,Sarah,Other,70,Australia,Free Trial,2024-08-21,2027-11-22,615.08,10.98,Tablet,NetBanking,14,0,Comedy,147,7.32,0,1
+C0193,Andrew,Female,40,Australia,Free Trial,2023-11-25,2025-03-16,90.91,0.99,Tablet,Credit Card,23,1,Documentary,457,5.44,0,1
+C0194,Miranda,Male,70,India,Free Trial,2025-06-14,2026-11-11,592.71,37.04,Smart TV,NetBanking,4,0,Science Fiction,333,8.12,0,0
+C0195,Jennifer,Male,66,Australia,Premium,2022-11-18,2024-07-15,143.02,1.02,Mobile,UPI,35,1,Science Fiction,497,7.32,0,0
+C0196,April,Female,27,France,Standard,2023-05-17,2024-03-01,114.83,0.99,Tablet,PayPal,29,1,Drama,399,8.81,0,1
+C0197,George,Female,49,United Kingdom,Free Trial,2024-07-08,2027-02-18,637.73,10.63,Mobile,PayPal,15,0,Documentary,152,6.99,0,1
+C0198,Scott,Female,39,France,Basic,2024-08-12,2026-09-14,638.59,11.4,Tablet,UPI,14,0,Thriller,118,6.49,0,1
+C0199,Marvin,Male,45,India,Basic,2025-09-17,,504.68,126.17,Smart TV,Debit Card,1,1,Documentary,449,4.72,0,1
+C0200,Kenneth,Female,59,United States,Free Trial,2024-12-26,2026-08-09,294.74,7.37,Mobile,Debit Card,10,0,Action,94,9.24,2,0
+C0201,Cole,Female,62,India,Premium,2023-06-30,2026-04-01,479.01,4.28,Mobile,Debit Card,28,0,Comedy,366,4.05,0,0
+C0202,Eric,Other,61,India,Free Trial,2025-01-14,2027-04-08,646.71,17.96,Mobile,NetBanking,9,0,Action,80,9.11,0,0
+C0203,Danielle,Male,24,India,Free Trial,2023-05-10,2024-05-10,580.72,5.01,Tablet,UPI,29,1,Science Fiction,325,9.34,0,0
+C0204,Alice,Other,19,Australia,Standard,2023-04-03,2025-09-28,120.47,1.0,Laptop,NetBanking,30,0,Romance,317,5.44,0,1
+C0205,Sarah,Male,33,Germany,Free Trial,2025-03-19,2028-02-25,319.48,11.41,Mobile,UPI,7,0,Science Fiction,498,9.21,0,1
+C0206,Michael,Male,55,United States,Free Trial,2022-12-17,2024-10-25,690.04,5.07,Smart TV,Debit Card,34,1,Comedy,98,7.17,0,0
+C0207,Troy,Other,43,United States,Basic,2024-05-03,2024-08-22,759.46,11.17,Smart TV,Credit Card,17,1,Thriller,266,7.65,0,1
+C0208,Maria,Female,62,Germany,Basic,2024-07-03,2026-04-28,737.53,12.29,Mobile,Debit Card,15,0,Documentary,310,5.9,0,0
+C0209,Scott,Male,18,Canada,Basic,2024-10-05,2025-04-29,101.63,2.12,Mobile,Debit Card,12,1,Comedy,389,5.79,0,0
+C0210,Karen,Male,39,Australia,Premium,2025-01-02,2027-11-14,423.17,11.75,Smart TV,NetBanking,9,0,Documentary,200,5.5,2,0
+C0211,Julie,Male,34,Australia,Free Trial,2024-07-20,2024-12-27,780.29,13.0,Mobile,Debit Card,15,1,Science Fiction,194,6.64,1,1
+C0212,Caitlin,Male,53,Australia,Premium,2023-02-10,,688.36,5.38,Laptop,UPI,32,1,Action,206,6.74,0,0
+C0213,Lori,Male,32,Australia,Free Trial,2024-11-26,2026-05-18,579.03,13.16,Tablet,Credit Card,11,0,Romance,71,7.31,0,0
+C0214,Denise,Other,68,United Kingdom,Basic,2024-04-30,2027-01-07,621.09,8.63,Tablet,UPI,18,0,Romance,14,7.21,0,1
+C0215,Katie,Male,32,France,Standard,2025-03-28,2028-02-01,622.95,22.25,Mobile,UPI,7,0,Science Fiction,135,8.41,0,1
+C0216,Bruce,Female,21,India,Standard,2023-04-13,2023-05-15,307.26,2.56,Mobile,Credit Card,30,1,Science Fiction,281,4.6,0,1
+C0217,Blake,Other,70,Germany,Free Trial,2024-10-05,2026-02-21,420.61,8.76,Mobile,PayPal,12,0,Science Fiction,392,6.66,0,0
+C0218,Tyler,Female,35,India,Free Trial,2023-01-17,2023-11-10,216.18,1.64,Laptop,Debit Card,33,1,Romance,435,6.28,0,1
+C0219,Dale,Female,37,Germany,Standard,2024-11-25,2025-08-05,139.86,3.18,Mobile,Credit Card,11,1,Thriller,193,4.7,0,0
+C0220,Chad,Male,63,India,Standard,2023-10-28,2024-10-14,250.33,2.61,Tablet,NetBanking,24,1,Science Fiction,437,4.23,0,0
+C0221,Kerri,Male,47,United States,Basic,2024-01-03,2024-05-12,215.53,2.57,Mobile,Credit Card,21,1,Drama,217,,0,0
+C0222,Craig,Other,55,United Kingdom,Free Trial,2024-02-21,2024-07-26,786.23,9.83,Mobile,Credit Card,20,1,Drama,361,6.32,0,0
+C0223,Chelsea,Female,21,India,Premium,2023-09-19,2024-11-26,360.31,3.6,Tablet,PayPal,25,1,Drama,424,8.91,0,0
+C0224,Eric,Male,57,France,Basic,2022-12-09,2023-03-09,347.06,2.55,Smart TV,PayPal,34,1,Romance,153,5.09,0,0
+C0225,Antonio,Other,69,France,Free Trial,2024-01-06,2026-05-28,388.43,4.62,Tablet,UPI,21,0,Action,112,4.8,0,0
+C0226,Amy,Female,21,Australia,Premium,2025-08-14,2028-05-22,392.9,49.11,Smart TV,NetBanking,2,0,Comedy,102,6.25,1,0
+C0227,Carmen,Male,54,Australia,Premium,2024-12-23,2026-05-13,89.11,2.23,Smart TV,Debit Card,10,0,Science Fiction,415,7.1,0,0
+C0228,Brooke,Other,54,India,Basic,2025-01-16,2026-02-10,261.22,7.26,Tablet,NetBanking,9,0,Science Fiction,24,9.3,0,1
+C0229,Gabrielle,Other,30,Australia,Basic,2025-09-28,2027-07-22,39.99,10.0,Smart TV,Debit Card,1,0,Action,279,5.27,0,1
+C0230,Samantha,Male,41,Canada,Premium,2024-10-24,2026-09-16,126.69,2.64,Mobile,UPI,12,0,Science Fiction,443,8.49,0,1
+C0231,Michael,Other,53,Canada,Standard,2024-07-16,2026-04-25,780.93,13.02,Laptop,NetBanking,15,0,Science Fiction,259,8.59,0,0
+C0232,Eric,Other,20,India,Standard,2024-08-02,2025-08-26,589.86,10.53,Laptop,NetBanking,14,1,Romance,495,8.23,0,1
+C0233,Brittany,Other,60,Canada,Standard,2024-08-19,2025-04-19,121.11,2.16,Tablet,Credit Card,14,1,Science Fiction,173,6.01,0,0
+C0234,Charles,Male,44,Germany,Premium,2023-11-11,2025-06-06,557.61,6.06,Smart TV,NetBanking,23,1,Romance,10,4.63,3,1
+C0235,Sarah,Male,36,United States,Standard,2023-01-31,2025-04-08,388.8,2.95,Smart TV,Credit Card,33,1,Documentary,125,8.4,0,0
+C0236,Michael,Other,57,Germany,Free Trial,2023-09-22,2024-03-21,711.47,7.11,Tablet,Debit Card,25,1,Drama,469,7.17,0,1
+C0237,Benjamin,Other,36,United Kingdom,Basic,2024-09-10,2027-03-18,89.99,1.73,Mobile,Credit Card,13,0,Drama,293,6.37,0,1
+C0238,Tammie,Male,24,United States,Basic,2025-07-18,2027-10-30,673.49,56.12,Laptop,UPI,3,0,Drama,54,4.02,0,1
+C0239,Laura,Male,41,Germany,Standard,2025-06-25,2026-01-08,101.25,6.33,Laptop,PayPal,4,0,Documentary,348,6.84,0,1
+C0240,Sherry,Male,60,United Kingdom,Premium,2025-06-20,2025-10-19,377.4,23.59,Laptop,NetBanking,4,0,Drama,87,7.27,0,0
+C0241,Mary,Female,37,United States,Premium,2025-09-30,2026-03-03,656.54,164.13,Mobile,NetBanking,1,0,Thriller,489,7.98,0,0
+C0242,Sara,Male,31,Australia,Basic,2023-07-06,2026-10-17,642.36,5.95,Laptop,Credit Card,27,0,Science Fiction,496,4.86,0,0
+C0243,Eric,Other,69,United States,Free Trial,2024-06-19,2026-12-03,549.67,8.59,Tablet,NetBanking,16,0,Drama,437,7.64,0,1
+C0244,Alexander,Male,44,India,Basic,2025-07-01,2027-10-22,686.73,57.23,Mobile,Credit Card,3,0,Comedy,412,9.07,0,1
+C0245,Thomas,Other,56,Germany,Free Trial,2025-04-01,2028-06-26,630.74,26.28,Laptop,UPI,6,0,Documentary,220,5.99,0,1
+C0246,Erica,Male,65,Germany,Standard,2022-12-02,2025-04-05,490.84,3.61,Smart TV,Credit Card,34,1,Science Fiction,460,6.3,0,0
+C0247,Lisa,Female,65,Germany,Standard,2024-10-25,2026-10-16,249.41,5.2,Smart TV,PayPal,12,0,Romance,360,8.98,1,0
+C0248,Candice,Other,68,India,Free Trial,2023-02-16,2023-09-16,177.0,1.38,Smart TV,NetBanking,32,1,Documentary,274,6.81,0,0
+C0249,Shelby,Male,33,United States,Premium,2023-08-04,2025-12-07,682.52,6.56,Mobile,UPI,26,0,Comedy,108,,0,0
+C0250,Beth,Other,46,India,Premium,2023-10-12,2024-12-22,660.57,6.88,Smart TV,UPI,24,1,Comedy,358,9.35,2,1
