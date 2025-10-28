@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/354383260344848266/0854c5ca7a9144278c94ab29034cebf6/artifacts
+end_time: 1761672912676
+entry_point_name: ''
+experiment_id: '354383260344848266'
+lifecycle_stage: active
+run_id: 0854c5ca7a9144278c94ab29034cebf6
+run_name: SVM
+run_uuid: 0854c5ca7a9144278c94ab29034cebf6
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761672903577
+status: 3
+tags: []
+user_id: palya

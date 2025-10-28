@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/354383260344848266/92c7ed3d865a477eb4ebdd8bc3a4309f/artifacts
+end_time: 1761672846128
+entry_point_name: ''
+experiment_id: '354383260344848266'
+lifecycle_stage: active
+run_id: 92c7ed3d865a477eb4ebdd8bc3a4309f
+run_name: XGBoost
+run_uuid: 92c7ed3d865a477eb4ebdd8bc3a4309f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761672837138
+status: 3
+tags: []
+user_id: palya

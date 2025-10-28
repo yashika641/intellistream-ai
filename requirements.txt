@@ -101,3 +101,4 @@ loguru
 # =========================
 protobuf==4.23.4
 ml-dtypes==0.2.0
+tools
