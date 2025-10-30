@@ -95,8 +95,8 @@ ct = ColumnTransformer([
     ('num', StandardScaler(), numeric_cols)
 ])
 X_meta = ct.fit_transform(data[meta_cols])
-
 # Combine
+data.to_csv(r"C:\Users\palya\Desktop\intellistream\intellistream-ai\docs\processed_movie_metadata1.csv", index=False)
 X = hstack([X_text, X_meta])
 y = data['Success']
 
@@ -171,7 +171,7 @@ with mlflow.start_run(run_name="DeepLearning_DenseNN"):
     nn_model = build_dense_nn(X_train_dense.shape[1])
     history = nn_model.fit(X_train_dense, y_train, validation_split=0.1, epochs=10, batch_size=32, verbose=1)
     # Save locally
-    nn_model.save(r"C:\Users\palya\Desktop\intellistream\models\DenseNN_model")
+    nn_model.save(r"C:\Users\palya\Desktop\intellistream\models\DenseNN_model.h5")
     print("✅ DenseNN model saved successfully!")
 
     y_pred_dl = (nn_model.predict(X_test_dense) > 0.5).astype(int).flatten()
@@ -215,7 +215,7 @@ with mlflow.start_run(run_name="DeepLearning_BERTDense"):
     history = bert_model.fit(X_embed_train, y_embed_train, validation_split=0.1, epochs=10, batch_size=32, verbose=1)
     # Save locally
     # Save locally
-    bert_model.save(r"C:\Users\palya\Desktop\intellistream\models\BERTDense_model")
+    bert_model.save(r"C:\Users\palya\Desktop\intellistream\models\BERTDense_model.h5")
     print("✅ BERTDense model saved successfully!")
 
 

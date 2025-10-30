@@ -111,7 +111,45 @@ X = {
 y = df['watch_duration_percent'].values
 
 # Train-test split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Split all input arrays along with y
+(
+    X_user_train, X_user_test,
+    X_movie_train, X_movie_test,
+    X_device_train, X_device_test,
+    X_time_train, X_time_test,
+    X_status_train, X_status_test,
+    X_review_train, X_review_test,
+    y_train, y_test
+) = train_test_split(
+    X['user_input'],
+    X['movie_input'],
+    X['device_input'],
+    X['time_input'],
+    X['status_input'],
+    X['review_input'],
+    y,
+    test_size=0.2,
+    random_state=42
+)
+
+# Reconstruct dictionaries for Keras input
+X_train = {
+    'user_input': X_user_train,
+    'movie_input': X_movie_train,
+    'device_input': X_device_train,
+    'time_input': X_time_train,
+    'status_input': X_status_train,
+    'review_input': X_review_train
+}
+
+X_test = {
+    'user_input': X_user_test,
+    'movie_input': X_movie_test,
+    'device_input': X_device_test,
+    'time_input': X_time_test,
+    'status_input': X_status_test,
+    'review_input': X_review_test
+}
 
 # -------------------------
 # Step 4: Train Model with Progress Bar
@@ -130,10 +168,18 @@ with mlflow.start_run():
     )
     
     # Save model
-    model.save("models/nn_hybrid_model_with_content.h5")
+    model.save("models/nn_hybrid_model_with_content.keras")
     
     # Log to MLflow
-    mlflow.tensorflow.log_model(tf_saved_model_dir="models/nn_hybrid_model_with_content.h5", tf_meta_graph_tags=None, tf_signature_def_key=None, artifact_path="nn_hybrid_model")
+    input_example = {
+    "user_input": np.array([0]),
+    "movie_input": np.array([0]),
+    "device_input": np.array([0]),
+    "time_input": np.array([0]),
+    "status_input": np.array([0]),
+    "review_input": np.zeros((1, review_features.shape[1]))
+}
+    mlflow.tensorflow.log_model( model, artifact_path="nn_hybrid_model", input_example=input_example)
     mlflow.log_params({
         "embedding_size": embedding_size,
         "epochs": 10,
@@ -148,6 +194,7 @@ with mlflow.start_run():
     
     mlflow.log_metrics({"mse": mse, "mae": mae, "rmse": rmse})
     print(f"Test MSE: {mse:.4f}, MAE: {mae:.4f}, RMSE: {rmse:.4f}")
+
 
 # -------------------------
 # Step 5: User Similarity for CF
@@ -191,3 +238,53 @@ user_to_recommend = 'C0001'
 top_movies = hybrid_recommend(user_to_recommend, top_n=5)
 print(f"Top 5 recommendations for {user_to_recommend}:")
 print(top_movies)
+# -------------------------
+# Step 8: Evaluation Metrics for Recommender
+# -------------------------
+def compute_recommender_metrics(model, test_df, top_k=5):
+    """
+    Compute Precision@K, Recall@K, NDCG@K for the hybrid recommender.
+    test_df: pandas DataFrame containing the test data
+    """
+    # Create a dict of true movies per user in test set
+    user_item_test = test_df.groupby('customer_id')['Movie Name'].apply(list).to_dict()
+    
+    precisions = []
+    recalls = []
+    ndcgs = []
+
+    for user_id, true_movies in tqdm(user_item_test.items(), desc="Evaluating Users"):
+        recommended = hybrid_recommend(user_id, top_n=top_k)
+        
+        # Count relevant recommendations
+        relevant_count = sum(1 for movie in recommended if movie in true_movies)
+        
+        # Precision@K
+        precision = relevant_count / top_k
+        precisions.append(precision)
+        
+        # Recall@K
+        recall = relevant_count / len(true_movies) if len(true_movies) > 0 else 0
+        recalls.append(recall)
+        
+        # NDCG@K
+        dcg = sum((1 / np.log2(idx + 2)) if movie in true_movies else 0
+                  for idx, movie in enumerate(recommended))
+        idcg = sum(1 / np.log2(i + 2) for i in range(min(len(true_movies), top_k))) if len(true_movies) > 0 else 0
+        ndcg = dcg / idcg if idcg > 0 else 0
+        ndcgs.append(ndcg)
+    
+    return {
+        "Precision@K": np.mean(precisions),
+        "Recall@K": np.mean(recalls),
+        "NDCG@K": np.mean(ndcgs)
+    }
+
+# -------------------------
+# Step 9: Compute metrics
+# -------------------------
+test_metrics = compute_recommender_metrics(model, df.iloc[X_test['user_input']], top_k=5)
+
+print("Recommender Evaluation Metrics:")
+for metric, value in test_metrics.items():
+    print(f"{metric}: {value:.4f}")

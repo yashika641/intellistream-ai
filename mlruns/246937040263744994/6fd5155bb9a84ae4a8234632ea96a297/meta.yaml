@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/246937040263744994/6fd5155bb9a84ae4a8234632ea96a297/artifacts
+end_time: 1761834102962
+entry_point_name: ''
+experiment_id: '246937040263744994'
+lifecycle_stage: active
+run_id: 6fd5155bb9a84ae4a8234632ea96a297
+run_name: Ridge
+run_uuid: 6fd5155bb9a84ae4a8234632ea96a297
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761834100470
+status: 3
+tags: []
+user_id: palya
