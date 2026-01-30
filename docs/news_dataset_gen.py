@@ -16,8 +16,8 @@ nltk.download('vader_lexicon')
 # -------------------------
 CSV_FILE = "netflix_stock_news_sentiment.csv"
 STOCK_SYMBOL = "NFLX"
-START_DATE = datetime.strptime("2024-11-20", "%Y-%m-%d").date()
-END_DATE = datetime.strptime("2025-1-29", "%Y-%m-%d").date()
+START_DATE = datetime.strptime("2025-06-27", "%Y-%m-%d").date()
+END_DATE = datetime.strptime("2025-10-30", "%Y-%m-%d").date()
 BATCH_DAYS = 10
 WAIT_TIME = 10  # Seconds between batches
 

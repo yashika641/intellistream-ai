@@ -8,7 +8,7 @@ df['date'] = pd.to_datetime(df['date'], errors='coerce')
 
 # Drop rows where 'date' is NaT (invalid dates)
 df.dropna(subset=['date'], inplace=True)
-
+df.drop(columns=['sentiment'],inplace=True)
 # Define the stock columns
 stock_cols = ['stock_open', 'stock_close', 'stock_high', 'stock_low', 'stock_volume']
 
@@ -20,7 +20,7 @@ for col in stock_cols:
 df.dropna(subset=stock_cols, inplace=True)
 
 # Group by 'date' and 'sentiment', calculate the average of stock columns and aggregate headlines
-grouped_df = df.groupby(['date', 'sentiment']).agg(
+grouped_df = df.groupby(['date' ]).agg(
     avg_stock_open=('stock_open', 'mean'),
     avg_stock_close=('stock_close', 'mean'),
     avg_stock_high=('stock_high', 'mean'),

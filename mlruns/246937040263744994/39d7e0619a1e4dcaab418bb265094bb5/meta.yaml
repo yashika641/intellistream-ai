@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/246937040263744994/39d7e0619a1e4dcaab418bb265094bb5/artifacts
+end_time: 1761926318937
+entry_point_name: ''
+experiment_id: '246937040263744994'
+lifecycle_stage: active
+run_id: 39d7e0619a1e4dcaab418bb265094bb5
+run_name: RandomForest
+run_uuid: 39d7e0619a1e4dcaab418bb265094bb5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761926253146
+status: 3
+tags: []
+user_id: palya

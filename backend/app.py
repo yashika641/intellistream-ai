@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routes import recommender
 from routes import script_predictor
 from routes import churn
-
+from routes import stock
 # -------------------------------
 # Create FastAPI App
 # -------------------------------
@@ -27,6 +27,7 @@ app.add_middleware(
 app.include_router(recommender.router)
 app.include_router(script_predictor.router)
 app.include_router(churn.router)
+app.include_router(stock.router)
 
 
 # -------------------------------

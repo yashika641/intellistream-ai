@@ -1,0 +1,20 @@
+artifact_path: lstm_stock_volume_model
+flavors:
+  python_function:
+    data: data
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.tensorflow
+    python_version: 3.10.19
+  tensorflow:
+    code: null
+    data: data
+    keras_version: 2.15.0
+    model_type: keras
+    save_format: tf
+mlflow_version: 2.16.0
+model_size_bytes: 2706901
+model_uuid: e112c52d4470444ca854a64c46aabc81
+run_id: 242ea1a53c884b69a90050df9e34d146
+utc_time_created: '2025-10-31 18:08:03.669921'

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/391780582589022081/ebac955687d74c5abbb493553eddcdef/artifacts
+end_time: 1761933570545
+entry_point_name: ''
+experiment_id: '391780582589022081'
+lifecycle_stage: active
+run_id: ebac955687d74c5abbb493553eddcdef
+run_name: big-steed-184
+run_uuid: ebac955687d74c5abbb493553eddcdef
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761933539361
+status: 3
+tags: []
+user_id: palya

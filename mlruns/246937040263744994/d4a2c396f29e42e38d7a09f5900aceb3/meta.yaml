@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/246937040263744994/d4a2c396f29e42e38d7a09f5900aceb3/artifacts
+end_time: 1761927212214
+entry_point_name: ''
+experiment_id: '246937040263744994'
+lifecycle_stage: active
+run_id: d4a2c396f29e42e38d7a09f5900aceb3
+run_name: NeuralNetwork
+run_uuid: d4a2c396f29e42e38d7a09f5900aceb3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761927091302
+status: 3
+tags: []
+user_id: palya
