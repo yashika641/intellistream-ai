@@ -7,9 +7,9 @@ import numpy as np
 from tqdm import tqdm
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense, Dropout
-from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.models import Sequential #type: ignore
+from tensorflow.keras.layers import LSTM, Dense, Dropout #type: ignore
+from tensorflow.keras.callbacks import EarlyStopping #type: ignore
 from sentence_transformers import SentenceTransformer
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import matplotlib.pyplot as plt

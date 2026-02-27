@@ -1,8 +1,10 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
 # Load data
-df = pd.read_csv(r"C:\Users\palya\Desktop\intellistream\intellistream-ai\docs\aggregated_netflix_news_stock.csv")
+df = pd.read_csv(os.path.join(BASE_DIR, "docs", "aggregated_netflix_news_stock.csv"))
 df.columns = [c.strip().lower() for c in df.columns]
 df['date'] = pd.to_datetime(df['date'])
 df.sort_values('date', inplace=True)
@@ -51,6 +53,7 @@ for window in windows:
 
 df['day_of_week'] = df['date'].dt.dayofweek  # 0=Monday, 6=Sunday
 df = pd.get_dummies(df, columns=['day_of_week'], drop_first=True)
+from tools import os
 from transformers import BertTokenizer, BertModel
 import tensorflow as tf
 
@@ -131,8 +134,8 @@ y_train, y_test = y[:split], y[split:]
 print("Train samples:", X_train.shape[0])
 print("Test samples:", X_test.shape[0])
 
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense, Dropout
+from tensorflow.keras.models import Sequential #type: ignore
+from tensorflow.keras.layers import LSTM, Dense, Dropout #type: ignore
 
 model = Sequential()
 model.add(LSTM(64, input_shape=(X_train.shape[1], X_train.shape[2]), return_sequences=False))

@@ -3,7 +3,7 @@
 # Improved with BatchNorm, Focal Loss, and Class-Balanced Training
 # Predicts: Age Rating, Duration, IMDb Rating, Sentiment, Genre
 # =============================================
-from tensorflow.keras.metrics import BinaryAccuracy, AUC
+from tensorflow.keras.metrics import BinaryAccuracy, AUC #type: ignore
 
 import pandas as pd
 import numpy as np
@@ -11,15 +11,17 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler, MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.utils.class_weight import compute_class_weight
-from tensorflow.keras.layers import Input, Dense, Dropout, Concatenate, BatchNormalization, LeakyReLU
-from tensorflow.keras.models import Model
-from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
+from tensorflow.keras.layers import Input, Dense, Dropout, Concatenate, BatchNormalization, LeakyReLU #type: ignore
+from tensorflow.keras.models import Model #type: ignore
+from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau #type: ignore
 import tensorflow as tf
+from tools import os
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 # ----------------------------
 # 1️⃣ Load Dataset
 # ----------------------------
-df = pd.read_csv(r'C:\Users\palya\Desktop\intellistream\intellistream-ai\docs\processed_movie_metadata.csv')
+df = pd.read_csv(os.path.join(BASE_DIR, "docs", "processed_movie_metadata.csv"))
 df['Age_Rating'] = df['Age_Rating'].fillna('Unknown')
 df['Duration'] = df['Duration'].fillna(df['Duration'].median())
 df['IMDb_Rating'] = df['IMDb_Rating'].fillna(df['IMDb_Rating'].median())

@@ -28,16 +28,17 @@ from catboost import CatBoostClassifier
 # ======== Deep Learning ========
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras import layers
+from tensorflow.keras import layers #type: ignore
 from sentence_transformers import SentenceTransformer
 
 # ======== Handle Imbalance ========
 from imblearn.over_sampling import SMOTE
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 # ======================================
 # 1️⃣ LOAD DATA
 # ======================================
-data = pd.read_csv(r"C:\Users\palya\Desktop\intellistream\intellistream-ai\docs\movie_metadata.csv")
+data = pd.read_csv(os.path.join(BASE_DIR, "docs", "movie_metadata.csv"))
 
 # Merge with scripts
 script_path = r"C:\Users\palya\Desktop\intellistream\intellistream-ai\docs\scripts"

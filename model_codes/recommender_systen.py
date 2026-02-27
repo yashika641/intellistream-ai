@@ -10,16 +10,17 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 import tensorflow as tf
-from tensorflow.keras import layers, Model
+from tensorflow.keras import layers, Model #type: ignore
 import os
 import mlflow
 from tqdm.keras import TqdmCallback
 from tqdm import tqdm
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 # -------------------------
 # Step 1: Load and preprocess
 # -------------------------
-df = pd.read_csv(r"C:\Users\palya\Desktop\intellistream\intellistream-ai\docs\user_movie_interactions.csv")
+df = pd.read_csv(os.path.join(BASE_DIR, "docs", "user_movie_interactions.csv"))
 
 # Fill missing values
 df['rating'] = df['rating'].fillna(df['rating'].mean())
@@ -154,47 +155,20 @@ X_test = {
 # -------------------------
 # Step 4: Train Model with Progress Bar
 # -------------------------
-os.makedirs("models", exist_ok=True)
-mlflow.set_experiment("Hybrid_Recommender")
+# -------------------------
+# Step 4: Train Model
+# -------------------------
 
-with mlflow.start_run():
-    history = model.fit(
-        X_train, y_train,
-        validation_data=(X_test, y_test),
-        epochs=10,
-        batch_size=32,
-        verbose=0,
-        callbacks=[TqdmCallback(verbose=1)]
-    )
-    
-    # Save model
-    model.save("models/nn_hybrid_model_with_content.keras")
-    
-    # Log to MLflow
-    input_example = {
-    "user_input": np.array([0]),
-    "movie_input": np.array([0]),
-    "device_input": np.array([0]),
-    "time_input": np.array([0]),
-    "status_input": np.array([0]),
-    "review_input": np.zeros((1, review_features.shape[1]))
-}
-    mlflow.tensorflow.log_model( model, artifact_path="nn_hybrid_model", input_example=input_example)
-    mlflow.log_params({
-        "embedding_size": embedding_size,
-        "epochs": 10,
-        "batch_size": 32
-    })
-    
-    # Compute metrics
-    y_pred = model.predict(X_test, verbose=0)
-    mse = mean_squared_error(y_test, y_pred)
-    mae = mean_absolute_error(y_test, y_pred)
-    rmse = np.sqrt(mse)
-    
-    mlflow.log_metrics({"mse": mse, "mae": mae, "rmse": rmse})
-    print(f"Test MSE: {mse:.4f}, MAE: {mae:.4f}, RMSE: {rmse:.4f}")
+history = model.fit(
+    X_train,
+    y_train,
+    validation_data=(X_test, y_test),
+    epochs=10,
+    batch_size=32,
+    verbose=1
+)
 
+print("✅ Model training complete")
 
 # -------------------------
 # Step 5: User Similarity for CF
@@ -288,3 +262,27 @@ test_metrics = compute_recommender_metrics(model, df.iloc[X_test['user_input']],
 print("Recommender Evaluation Metrics:")
 for metric, value in test_metrics.items():
     print(f"{metric}: {value:.4f}")
+
+
+# =========================
+# Step 10: Save Everything in ONE File
+# =========================
+
+import pickle
+
+hybrid_bundle = {
+    "model": model,
+    "le_user": le_user,
+    "le_movie": le_movie,
+    "user_sim": user_sim,
+    "user_item_matrix": user_item_matrix_np,
+    "review_feature_size": review_features.shape[1],
+    "num_movies": num_movies
+}
+
+os.makedirs("models", exist_ok=True)
+
+with open("models/hybrid_recommender_bundle.pkl", "wb") as f:
+    pickle.dump(hybrid_bundle, f)
+
+print("✅ Hybrid recommender saved successfully")

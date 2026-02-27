@@ -43,7 +43,10 @@ from utils.logger import get_logger
 from utils.file_handler import load_csv
 
 logger = get_logger("churn_model_training")
-
+from dotenv import load_dotenv
+load_dotenv()
+BASE_DIR = os.getenv("BASE_DIR")
+print("BASE_DIR from .env:", BASE_DIR)
 # -----------------------------------------------------
 # 🧩 PREPROCESSING
 # -----------------------------------------------------
@@ -207,7 +210,7 @@ def train_and_evaluate_models(x_train, y_train, x_test, y_test):
 def main():
     logger.info("Starting Churn Prediction Pipeline")
 
-    df = load_csv(r"C:\Users\palya\Desktop\intellistream\intellistream-ai\docs\customer_metadata.csv")
+    df = load_csv(os.path.join(BASE_DIR, "docs", "customer_metadata.csv"))
 
     df = preprocess_data(df)
     df = feature_engineering(df)

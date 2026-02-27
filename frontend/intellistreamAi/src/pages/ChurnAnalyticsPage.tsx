@@ -4,16 +4,43 @@ import { motion } from "motion/react";
 import { TrendingDown, Users, Clock, AlertCircle, Target, BarChart3 } from "lucide-react";
 import { Page } from "../App";
 import { Button } from "../components/ui/button";
-
+import { useState, useEffect } from "react";
 interface ChurnAnalyticsPageProps {
   onNavigate: (page: Page) => void;
 }
 
 export function ChurnAnalyticsPage({ onNavigate }: ChurnAnalyticsPageProps) {
+  const [analytics, setAnalytics] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchAnalytics = async () => {
+      setLoading(true);
+
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:8000/churn_analytics/churn_analytics"
+        );
+
+        const data = await response.json();
+        setAnalytics(data);
+
+      } catch (err) {
+        console.error("Error fetching churn analytics:", err);
+      }
+
+      setLoading(false);
+    };
+
+    fetchAnalytics();
+  }, []);
+
+
+
   return (
     <div className="min-h-screen">
       <Navigation onNavigate={onNavigate} currentPage="Churn & Behavior Analytics" />
-      
+
       <div className="max-w-7xl mx-auto px-6 py-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -36,7 +63,9 @@ export function ChurnAnalyticsPage({ onNavigate }: ChurnAnalyticsPageProps) {
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <p className="text-slate-400 mb-2">Churn Rate</p>
-                    <p className="text-white">12.4%</p>
+                    <p className="text-white">
+                      {loading ? "..." : `${analytics?.predicted_churn_rate ?? 0}%`}
+                    </p>
                   </div>
                   <div className="p-3 rounded-lg bg-red-500/10">
                     <TrendingDown className="size-5 text-red-400" />
@@ -51,7 +80,9 @@ export function ChurnAnalyticsPage({ onNavigate }: ChurnAnalyticsPageProps) {
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <p className="text-slate-400 mb-2">At-Risk Users</p>
-                    <p className="text-white">1,847</p>
+                    <p className="text-white">
+                      {loading ? "..." : analytics?.at_risk_users ?? 0}
+                    </p>
                   </div>
                   <div className="p-3 rounded-lg bg-blue-500/10">
                     <AlertCircle className="size-5 text-blue-400" />
@@ -66,7 +97,9 @@ export function ChurnAnalyticsPage({ onNavigate }: ChurnAnalyticsPageProps) {
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <p className="text-slate-400 mb-2">Avg Engagement</p>
-                    <p className="text-white">87.5%</p>
+                    <p className="text-white">
+                      {loading ? "..." : `${analytics?.average_risk_probability ?? 0}%`}
+                    </p>
                   </div>
                   <div className="p-3 rounded-lg bg-purple-500/10">
                     <Target className="size-5 text-purple-400" />
@@ -81,7 +114,9 @@ export function ChurnAnalyticsPage({ onNavigate }: ChurnAnalyticsPageProps) {
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <p className="text-slate-400 mb-2">Retention Score</p>
-                    <p className="text-white">92.1</p>
+                    <p className="text-white">
+                      {loading ? "..." : analytics?.retention_score ?? 0}
+                    </p>
                   </div>
                   <div className="p-3 rounded-lg bg-green-500/10">
                     <Users className="size-5 text-green-400" />
@@ -103,25 +138,37 @@ export function ChurnAnalyticsPage({ onNavigate }: ChurnAnalyticsPageProps) {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {[
-                    { driver: "Low watch time (< 5hrs/week)", impact: 85, color: "red" },
-                    { driver: "No content in watchlist", impact: 72, color: "orange" },
-                    { driver: "Subscription > 6 months", impact: 68, color: "yellow" },
-                    { driver: "Minimal genre diversity", impact: 54, color: "blue" },
-                  ].map((item, index) => (
-                    <div key={index} className="space-y-2">
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-slate-300">{item.driver}</span>
-                        <span className="text-slate-400">{item.impact}% impact</span>
-                      </div>
-                      <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full bg-gradient-to-r from-${item.color}-500 to-${item.color}-600`}
-                          style={{ width: `${item.impact}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
+                  {loading ? (
+                    <p className="text-slate-400">Loading drivers...</p>
+                  ) : analytics?.top_drivers?.length > 0 ? (
+                    analytics.top_drivers.map((driver: any, index: number) => {
+                      const impact = driver.impact;
+                      const colors = ["red", "orange", "yellow", "blue", "purple"];
+                      const color = colors[index % colors.length];
+
+                      return (
+                        <div key={index} className="space-y-2">
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-slate-300 capitalize">
+                              {driver.feature.replace(/_/g, " ")}
+                            </span>
+                            <span className="text-slate-400">
+                              {impact}% impact
+                            </span>
+                          </div>
+
+                          <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
+                              style={{ width: `${impact}%` }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <p className="text-slate-500">No driver data available</p>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -135,23 +182,43 @@ export function ChurnAnalyticsPage({ onNavigate }: ChurnAnalyticsPageProps) {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {[
-                    { segment: "Power Users", users: "34.2k", churn: "3.1%", color: "green" },
-                    { segment: "Regular Viewers", users: "87.5k", churn: "8.4%", color: "blue" },
-                    { segment: "Casual Users", users: "45.8k", churn: "18.7%", color: "orange" },
-                    { segment: "Inactive", users: "12.3k", churn: "42.3%", color: "red" },
-                  ].map((item, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 rounded-lg bg-slate-800/50 border border-slate-700/50">
-                      <div>
-                        <p className="text-white mb-1">{item.segment}</p>
-                        <p className="text-slate-400">{item.users} users</p>
-                      </div>
-                      <div className={`text-${item.color}-400`}>
-                        {item.churn} churn
-                      </div>
-                    </div>
-                  ))}
-                </div>
+  {loading ? (
+    <p className="text-slate-400">Loading segments...</p>
+  ) : analytics?.segments?.length > 0 ? (
+    analytics.segments.map((item: any, index: number) => {
+      const churn = item.avg_churn_probability;
+
+      const colorClass =
+        churn > 40
+          ? "text-red-400"
+          : churn > 20
+          ? "text-orange-400"
+          : churn > 10
+          ? "text-yellow-400"
+          : "text-green-400";
+
+      return (
+        <div
+          key={index}
+          className="flex items-center justify-between p-4 rounded-lg bg-slate-800/50 border border-slate-700/50"
+        >
+          <div>
+            <p className="text-white mb-1">{item.segment}</p>
+            <p className="text-slate-400">
+              {item.users} users
+            </p>
+          </div>
+
+          <div className={colorClass}>
+            {churn}% churn
+          </div>
+        </div>
+      );
+    })
+  ) : (
+    <p className="text-slate-500">No segment data available</p>
+  )}
+</div>
               </CardContent>
             </Card>
           </div>

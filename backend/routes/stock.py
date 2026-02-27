@@ -1,6 +1,8 @@
 # ==============================================
 # 📈 FastAPI: Stock Prediction Routes
 # ==============================================
+import os
+
 from fastapi import APIRouter,Request
 from fastapi.middleware.cors import CORSMiddleware
 from GoogleNews import GoogleNews
@@ -11,13 +13,15 @@ import datetime
 import numpy as np
 from fastapi.responses import JSONResponse
 from tensorflow.keras.models import load_model
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
 # ---------- Load Models ----------
-sentiment_model = joblib.load(r"C:\Users\palya\Desktop\intellistream\intellistream-ai\models\sentiment_classifier.joblib")
+sentiment_model = joblib.load(os.path.join(BASE_DIR, "models", "sentiment_classifier.joblib"))
 price_model = load_model(
-    r"C:\Users\palya\Desktop\intellistream\intellistream-ai\models\news_aware_netflix_model.keras"
+    os.path.join(BASE_DIR, "models", "news_aware_netflix_model.keras")
 )
 volume_model = load_model(
-    r"C:\Users\palya\Desktop\intellistream\intellistream-ai\models\netflix_stock_volume_model.h5"
+    os.path.join(BASE_DIR, "models", "netflix_stock_volume_model.h5")
 )
 # ---------- FastAPI App ----------
 router = APIRouter(prefix="/api", tags=["stock"])
@@ -46,7 +50,7 @@ def predict_next_7_days(avg_sentiment):
     import numpy as np
     from sklearn.preprocessing import MinMaxScaler
 
-    CSV_PATH = r"C:\Users\palya\Desktop\intellistream\intellistream-ai\docs\aggregated_netflix_news_stock.csv"
+    CSV_PATH = os.path.join(BASE_DIR, "docs", "aggregated_netflix_news_stock.csv")
     # Sequence lengths (as used in training)
     SEQ_LEN_PRICE = 7
     SEQ_LEN_VOLUME = 21

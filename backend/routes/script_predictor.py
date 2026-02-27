@@ -6,14 +6,20 @@ import tensorflow as tf
 import os
 
 router = APIRouter(prefix="/api", tags=["Script Predictor"])
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 # -------------------------------
 # ✅ Load Models
 # -------------------------------
-bert_dense_model_path = r"C:\Users\palya\Desktop\intellistream\intellistream-ai\models\BERTDense_model"
-bert_dense_model = tf.keras.models.load_model(bert_dense_model_path)
+bert_dense_model_path = os.path.join(BASE_DIR, "models", "BERTDense_model")
+from keras.layers import TFSMLayer
 
-hybrid_model_path = r"C:\Users\palya\Desktop\intellistream\intellistream-ai\models\hybrid_movie_model_best.h5"
+bert_dense_model = TFSMLayer(
+    bert_dense_model_path,
+    call_endpoint="serving_default"
+)
+
+hybrid_model_path = os.path.join(BASE_DIR, "models", "hybrid_movie_model_best.h5")
 def focal_loss_fixed(y_true, y_pred, gamma=2., alpha=.25):
     y_true = tf.cast(y_true, tf.float32)
     y_pred = tf.clip_by_value(y_pred, tf.keras.backend.epsilon(), 1. - tf.keras.backend.epsilon())
@@ -31,7 +37,7 @@ sbert_model = SentenceTransformer('all-MiniLM-L6-v2')  # 384-dim embeddings
 # -------------------------------
 # ✅ Load dataset for meta defaults
 # -------------------------------
-dataset_path = r"C:\Users\palya\Desktop\intellistream\intellistream-ai\docs\processed_movie_metadata1.csv"
+dataset_path = os.path.join(BASE_DIR, "docs", "processed_movie_metadata1.csv")
 data = pd.read_csv(dataset_path)
 
 # Numeric columns
@@ -75,8 +81,9 @@ async def predict_script(file: UploadFile = File(...)):
     # 3️⃣ Concatenate embedding + meta
     X_input = np.hstack([embedding, meta_vector])  # shape: (1, 441)
 
-    # 4️⃣ Predict Script Success
-    success_output = bert_dense_model.predict(X_input)
+    # 4️⃣ Predict Script Successsuccess_output = bert_dense_model(X_input)
+    success_output = bert_dense_model(X_input)
+    success_score = float(success_output.numpy()[0][0])
     success_score = float(success_output[0][0])
 
     # 5️⃣ Predict Hybrid Model outputs

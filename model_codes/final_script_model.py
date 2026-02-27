@@ -16,17 +16,18 @@ import pandas as pd
 import numpy as np
 from sklearn.utils import class_weight
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 # ------------------------------
 # 1️⃣ Load Movie Metadata
 # ------------------------------
-data = pd.read_csv(r"C:\Users\palya\Desktop\intellistream\intellistream-ai\docs\movie_metadata.csv")
+data = pd.read_csv(os.path.join(BASE_DIR, "docs", "movie_metadata.csv"))
 data['Success'] = (data['IMDb_Rating'] >= 6.0).astype(int)
 
 # ------------------------------
 # 2️⃣ Load Scripts
 # ------------------------------
-script_path = r"C:\Users\palya\Desktop\intellistream\intellistream-ai\docs\scripts"
+script_path = os.path.join(BASE_DIR, "docs", "scripts")
 scripts_data = []
 
 for file in glob.glob(os.path.join(script_path, "*.txt")):

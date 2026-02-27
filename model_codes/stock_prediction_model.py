@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
@@ -7,14 +9,15 @@ from transformers import AutoTokenizer, AutoModel
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense, Dropout
+from tensorflow.keras.models import Sequential #type: ignore
+from tensorflow.keras.layers import LSTM, Dense, Dropout #type: ignore
 import matplotlib.pyplot as plt
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 # ----------------------------
 # 1️⃣ Load CSV
 # ----------------------------
-df = pd.read_csv(r'C:\Users\palya\Desktop\intellistream\intellistream-ai\docs\aggregated_netflix_news_stock.csv')
+df = pd.read_csv(os.path.join(BASE_DIR, "docs", "aggregated_netflix_news_stock.csv"))
 
 import nltk
 nltk.download('vader_lexicon')
