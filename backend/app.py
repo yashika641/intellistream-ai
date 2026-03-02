@@ -6,7 +6,7 @@ from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import HTMLResponse
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from backend.routes import churn, recommender
+from backend.routes import churn, recommender ,script_predictor
 from backend.services import run_churn_batch
 
 # --------------------------------------------------
@@ -22,7 +22,7 @@ app = FastAPI(
 # Scheduler (Portfolio-friendly batch automation)
 # --------------------------------------------------
 scheduler = BackgroundScheduler()
-scheduler.add_job(run_churn_batch, "interval", minutes=15)
+scheduler.add_job(run_churn_batch, "interval", hours=24)  # Run every 24 hours
 
 @app.on_event("startup")
 def startup_event():
@@ -50,6 +50,7 @@ app.add_middleware(
 # --------------------------------------------------
 app.include_router(churn.router)
 app.include_router(recommender.router)
+app.include_router(script_predictor.router)
 
 # --------------------------------------------------
 # Custom Dark Docs
