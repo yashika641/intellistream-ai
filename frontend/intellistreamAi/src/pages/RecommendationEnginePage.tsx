@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import { useState } from "react";
 import axios from "axios";
 import { Navigation } from "../components/Navigation";
@@ -40,9 +41,9 @@ export function RecommendationEnginePage({ onNavigate }: RecommendationEnginePag
     try {
       setLoading(true);
       setError(null);
-
+      const apiUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
       const response = await axios.get(
-        `http://localhost:8000/recommendations/${customerId}`
+        `${apiUrl}/recommendations/${customerId}`
       );
 
       setRecommendations(response.data.recommendations);

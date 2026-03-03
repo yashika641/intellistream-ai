@@ -29,32 +29,50 @@ if not TMDB_TOKEN:
 # =====================================================
 # Load Hybrid Model (Load Once at Startup)
 # =====================================================
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+import os
+import pickle
+from keras.models import load_model
+
 BASE_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "..")
 )
-MODEL_PATH = os.path.join(BASE_DIR, "models", "hybrid_recommender_bundle.pkl")
+
+MODEL_PATH = os.path.join(BASE_DIR, "models", "hybrid_recommender_model.keras")
+META_PATH = os.path.join(BASE_DIR, "models", "hybrid_recommender_metadata.pkl")
+
 print(f"🔍 Loading recommender model from: {MODEL_PATH}")
+
+# ----------------------------
+# Load Neural Network
+# ----------------------------
 if not os.path.exists(MODEL_PATH):
     raise RuntimeError(f"Model file not found at {MODEL_PATH}")
 
 try:
-    with open(MODEL_PATH, "rb") as f:
-        recommender = pickle.load(f)
-
-    model = recommender["model"]
-    le_user = recommender["le_user"]
-    le_movie = recommender["le_movie"]
-    user_sim = recommender["user_sim"]
-    user_item_matrix = recommender["user_item_matrix"]
-    review_feature_size = recommender["review_feature_size"]
-    num_movies = recommender["num_movies"]
-
+    model_instance = load_model(MODEL_PATH)
+    if model_instance is None:
+        raise RuntimeError(f"Model loaded but is None from {MODEL_PATH}")
+    print("✅ Recommender model loaded successfully")
 except Exception as e:
-    raise RuntimeError(f"Failed to load recommender model: {str(e)}")
+    raise RuntimeError(f"Failed to load model from {MODEL_PATH}: {str(e)}")
 
+# ----------------------------
+# Load Metadata
+# ----------------------------
+if not os.path.exists(META_PATH):
+    raise RuntimeError(f"Metadata file not found at {META_PATH}")
 
-# =====================================================
+with open(META_PATH, "rb") as f:
+    metadata_bundle = pickle.load(f)
+
+le_user = metadata_bundle["le_user"]
+le_movie = metadata_bundle["le_movie"]
+user_sim = metadata_bundle["user_sim"]
+user_item_matrix = metadata_bundle["user_item_matrix"]
+review_feature_size = metadata_bundle["review_feature_size"]
+num_movies = metadata_bundle["num_movies"]
+
+print("✅ Recommender metadata loaded successfully")# =====================================================
 # TMDB Poster Fetcher
 # =====================================================
 
@@ -122,17 +140,20 @@ def hybrid_recommend(user_id: str, top_n: int = 6, alpha: float = 0.5):
     review_input = np.zeros((num_movies, review_feature_size))
 
     # Neural Network Predictions
-    nn_preds = model.predict(
+    if model_instance is None:
+        raise RuntimeError("Model instance is not loaded")
+
+    nn_preds = model_instance(
         [
-            np.full(num_movies, user_idx),
+            np.full(num_movies, user_idx).astype("int32"),
             movies,
             device_input,
             time_input,
             status_input,
             review_input
         ],
-        verbose=0
-    ).flatten()
+        # verbose=0
+    ).numpy().flatten()
 
     # Collaborative Filtering Scores
     sim_sum = user_sim[user_idx].sum()
@@ -282,11 +303,12 @@ def get_recommendations(customer_id: str) -> Dict:
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
 
-    except Exception:
-        raise HTTPException(
-            status_code=500,
-            detail="Internal server error while generating recommendations."
-        )
+    except Exception as e:
+            print("RECOMMENDER ERROR:", str(e))
+            raise HTTPException(
+                status_code=500,
+                detail=str(e)
+            )
         
 @router.get("/debug/users")
 def get_available_users():

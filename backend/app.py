@@ -6,7 +6,7 @@ from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import HTMLResponse
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from backend.routes import churn, recommender ,script_predictor
+from backend.routes import churn, recommender ,script_predictor, stock, sentiment
 from backend.services import run_churn_batch
 
 # --------------------------------------------------
@@ -51,6 +51,9 @@ app.add_middleware(
 app.include_router(churn.router)
 app.include_router(recommender.router)
 app.include_router(script_predictor.router)
+app.include_router(stock.router)
+app.include_router(sentiment.router)
+# app.include_router(ai_insights.router)
 
 # --------------------------------------------------
 # Custom Dark Docs

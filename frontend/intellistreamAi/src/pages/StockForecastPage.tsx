@@ -1,27 +1,102 @@
 import { Navigation } from "../components/Navigation";
+/// <reference types="vite/client" />
+
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { motion } from "motion/react";
 import { TrendingUp, TrendingDown, DollarSign, BarChart3, Activity, Calendar } from "lucide-react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+  Area,
+} from "recharts";
 import { Page } from "../App";
 import { Button } from "../components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
-
+import { useEffect, useState } from "react";
 interface StockForecastPageProps {
   onNavigate: (page: Page) => void;
 }
 
-const stocks = [
-  { symbol: "NFLX", name: "Netflix", price: "$487.32", change: "+2.4%", trend: "up" },
-  { symbol: "DIS", name: "Disney", price: "$102.45", change: "+1.8%", trend: "up" },
-  { symbol: "WBD", name: "Warner Bros", price: "$11.23", change: "-0.5%", trend: "down" },
-  { symbol: "PARA", name: "Paramount", price: "$14.67", change: "+3.2%", trend: "up" },
-];
 
 export function StockForecastPage({ onNavigate }: StockForecastPageProps) {
+  const [stocks, setStocks] = useState<any[]>([]);
+  const [selectedStock, setSelectedStock] = useState("NFLX");
+  const [forecastDays, setForecastDays] = useState("30");
+  const [model, setModel] = useState("Prophet");
+  const [forecastData, setForecastData] = useState<any>(null);
+
+  const fetchStocks = async () => {
+  try {
+    const symbols = ["NFLX", "DIS", "WBD", "PARA"];
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
+    const responses = await Promise.all(
+      symbols.map(async (symbol) => {
+        const res = await fetch(
+          `${apiUrl}/api/dashboard/${symbol}?forecast_days=1`
+        );
+
+        if (!res.ok) {
+          console.error("Failed for", symbol);
+          return null;
+        }
+
+        return res.json();
+      })
+    );
+
+    console.log("API responses:", responses);
+
+    const formatted = responses
+      .filter(Boolean)
+      .filter(data => data?.realtime_data)
+      .map(data => ({
+        symbol: data.symbol,
+        name: data.symbol,
+        price: `$${data.realtime_data.current_price}`,
+        change: `${data.realtime_data.percent_change}%`,
+        trend:
+          data.realtime_data.percent_change >= 0 ? "up" : "down"
+      }));
+
+    setStocks(formatted);
+  } catch (err) {
+    console.error("Fetch error:", err);
+  }
+};
+
+
+  useEffect(() => {
+    fetchStocks();
+
+    const interval = setInterval(() => {
+      fetchStocks();
+    }, 60000); // 1 minute
+
+    return () => clearInterval(interval);
+  }, []);
+
+const apiUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+  const fetchForecast = async () => {
+    const res = await fetch(
+      `${apiUrl}/api/dashboard/${selectedStock}?forecast_days=${forecastDays}`
+    );
+
+    const data = await res.json();
+    setForecastData(data);
+  };
+  useEffect(() => {
+    fetchForecast();
+  }, [selectedStock, forecastDays, model]);
+console.log("Stocks state:", stocks);
   return (
     <div className="min-h-screen">
       <Navigation onNavigate={onNavigate} currentPage="Stock Market Trend Forecaster" />
-      
+
       <div className="max-w-7xl mx-auto px-6 py-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -38,7 +113,7 @@ export function StockForecastPage({ onNavigate }: StockForecastPageProps) {
               </p>
             </div>
             <div className="flex gap-3">
-              <Select defaultValue="30">
+              <Select value={forecastDays} onValueChange={setForecastDays}>
                 <SelectTrigger className="w-32 bg-slate-800/50 border-slate-700 text-white">
                   <SelectValue />
                 </SelectTrigger>
@@ -58,8 +133,9 @@ export function StockForecastPage({ onNavigate }: StockForecastPageProps) {
           {/* Stock Watchlist */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {stocks.map((stock, index) => (
-              <Card 
+              <Card
                 key={index}
+                onClick={() => setSelectedStock(stock.symbol)}
                 className={`backdrop-blur-lg bg-slate-900/50 border ${stock.trend === 'up' ? 'border-green-500/30' : 'border-red-500/30'} cursor-pointer hover:scale-105 transition-transform`}
               >
                 <CardContent className="p-6">
@@ -91,38 +167,99 @@ export function StockForecastPage({ onNavigate }: StockForecastPageProps) {
               <div className="flex items-center justify-between">
                 <CardTitle className="text-white flex items-center gap-2">
                   <BarChart3 className="size-5 text-blue-400" />
-                  NFLX - 30 Day Forecast
+                  {selectedStock} - {forecastDays} Day Forecast
                 </CardTitle>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="outline" className="bg-slate-800/50 border-slate-700 text-slate-300">
-                    Prophet
-                  </Button>
-                  <Button size="sm" variant="outline" className="bg-slate-800/50 border-slate-700 text-slate-300">
-                    ARIMA
-                  </Button>
-                  <Button size="sm" className="bg-blue-600 hover:bg-blue-500">
-                    LSTM
-                  </Button>
+                  <Button
+  size="sm"
+  variant={model === "Prophet" ? "default" : "outline"}
+  onClick={() => setModel("Prophet")}
+>
+  Prophet
+</Button>
+
+<Button
+  size="sm"
+  variant={model === "ARIMA" ? "default" : "outline"}
+  onClick={() => setModel("ARIMA")}
+>
+  ARIMA
+</Button>
+
+<Button
+  size="sm"
+  variant={model === "LSTM" ? "default" : "outline"}
+  onClick={() => setModel("LSTM")}
+>
+  LSTM
+</Button>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
-              <div className="h-96 flex items-center justify-center text-slate-500 border border-slate-800 rounded-lg bg-slate-950/50">
-                <div className="text-center">
-                  <Activity className="size-16 mx-auto mb-4 text-blue-400" />
-                  <p className="mb-2">Interactive Stock Price Forecast Chart</p>
-                  <p className="text-sm text-slate-600">Prophet + LSTM hybrid model with 95% confidence intervals</p>
-                </div>
-              </div>
-              
+              <div className="h-96 bg-slate-950/50 border border-slate-800 rounded-lg p-4">
+  {forecastData?.forecast ? (
+    <ResponsiveContainer width="100%" height="100%">
+      <LineChart data={forecastData.forecast}>
+        <CartesianGrid stroke="#1e293b" strokeDasharray="3 3" />
+        <XAxis
+          dataKey="ds"
+          tick={{ fill: "#94a3b8", fontSize: 12 }}
+          tickFormatter={(value) => value.slice(5, 10)}
+        />
+        <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }} />
+        <Tooltip
+          contentStyle={{
+            backgroundColor: "#0f172a",
+            border: "1px solid #334155",
+          }}
+          labelStyle={{ color: "#fff" }}
+        />
+
+        {/* Confidence Interval Area */}
+        <Area
+          type="monotone"
+          dataKey="yhat_upper"
+          stroke="none"
+          fill="#3b82f6"
+          fillOpacity={0.1}
+        />
+        <Area
+          type="monotone"
+          dataKey="yhat_lower"
+          stroke="none"
+          fill="#3b82f6"
+          fillOpacity={0.1}
+        />
+
+        {/* Main Forecast Line */}
+        <Line
+          type="monotone"
+          dataKey="yhat"
+          stroke="#3b82f6"
+          strokeWidth={3}
+          dot={false}
+        />
+      </LineChart>
+    </ResponsiveContainer>
+  ) : (
+    <div className="flex items-center justify-center h-full text-slate-500">
+      Loading forecast...
+    </div>
+  )}
+</div>
               <div className="grid grid-cols-4 gap-4 mt-6">
                 <div className="p-4 rounded-lg bg-slate-800/50 text-center">
                   <p className="text-slate-400 mb-1">Current Price</p>
-                  <p className="text-white">$487.32</p>
+                  <p className="text-white">
+  ${forecastData?.realtime_data?.current_price}
+</p>
                 </div>
                 <div className="p-4 rounded-lg bg-slate-800/50 text-center">
                   <p className="text-slate-400 mb-1">Predicted (30d)</p>
-                  <p className="text-green-400">$512.45</p>
+                  <p className="text-green-400">
+  ${forecastData?.forecast?.[forecastData.forecast.length - 1]?.yhat?.toFixed(2)}
+</p>
                 </div>
                 <div className="p-4 rounded-lg bg-slate-800/50 text-center">
                   <p className="text-slate-400 mb-1">Confidence</p>
@@ -130,7 +267,14 @@ export function StockForecastPage({ onNavigate }: StockForecastPageProps) {
                 </div>
                 <div className="p-4 rounded-lg bg-slate-800/50 text-center">
                   <p className="text-slate-400 mb-1">Expected Gain</p>
-                  <p className="text-green-400">+5.15%</p>
+                  <p className="text-green-400">
+  {(
+    ((forecastData?.forecast?.[forecastData.forecast.length - 1]?.yhat -
+      forecastData?.realtime_data?.current_price)
+      / forecastData?.realtime_data?.current_price) *
+    100
+  ).toFixed(2)}%
+</p>
                 </div>
               </div>
             </CardContent>

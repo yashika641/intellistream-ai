@@ -2,9 +2,12 @@ import os
 import joblib
 import numpy as np
 import pandas as pd
+import requests
+import re
 
 from fastapi import APIRouter, HTTPException, UploadFile, File
 from pydantic import BaseModel
+from keras.models import load_model
 
 # ------------------------------------------------
 # ROUTER SETUP
@@ -16,26 +19,37 @@ router = APIRouter(
 )
 
 # ------------------------------------------------
-# LOAD SAVED PIPELINE (SINGLE FILE)
+# LOAD MODEL + METADATA
 # ------------------------------------------------
+
 BASE_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "..")
 )
-MODEL_PATH = os.path.join(BASE_DIR, "models", "ScriptSuccess_FullPipeline.pkl")
+
+MODEL_PATH = os.path.join(BASE_DIR, "models", "ScriptSuccess_Model.keras")
+META_PATH = os.path.join(BASE_DIR, "models", "ScriptSuccess_Metadata.pkl")
 
 if not os.path.exists(MODEL_PATH):
-    raise RuntimeError("Model file not found!")
+    raise RuntimeError("Keras model file not found!")
 
-bundle = joblib.load(MODEL_PATH)
+if not os.path.exists(META_PATH):
+    raise RuntimeError("Metadata file not found!")
 
-model = bundle["model"]
-tfidf = bundle["tfidf"]
-ct = bundle["column_transformer"]
-imputer = bundle["imputer"]
-genre_list = bundle["genre_list"]
+# Load Keras model
+model = load_model(MODEL_PATH)
+
+# Load sklearn metadata
+metadata_bundle = joblib.load(META_PATH)
+
+tfidf = metadata_bundle["tfidf"]
+ct = metadata_bundle["column_transformer"]
+imputer = metadata_bundle["imputer"]
+genre_list = metadata_bundle["genre_list"]
+
+print("✅ Script Success model loaded successfully")
 
 # ------------------------------------------------
-# REQUEST SCHEMA
+# REQUEST SCHEMA (kept as requested)
 # ------------------------------------------------
 
 class ScriptInput(BaseModel):
@@ -48,37 +62,118 @@ class ScriptInput(BaseModel):
 # ------------------------------------------------
 # HELPER FUNCTIONS
 # ------------------------------------------------
+from dotenv import load_dotenv
 
-def preprocess_input(data: ScriptInput):
+BASE_DIR = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..")
+)
+env_path = os.path.join(BASE_DIR, ".env")
+print("env path", env_path)
+load_dotenv()
+
+TMDB_API_KEY = os.getenv("TMDB_API_KEY")
+print("tmdb key " , TMDB_API_KEY)
+
+def clean_title(title: str):
+    title = re.sub(r"\b(final|draft|v\d+|\d{4})\b", "", title, flags=re.IGNORECASE)
+    title = re.sub(r"[_\-]", " ", title)
+    return title.strip()
+
+
+def fetch_tmdb_metadata(title: str):
+    if not TMDB_API_KEY:
+        raise RuntimeError("TMDB_API_KEY not configured in environment variables.")
+
+    cleaned_title = clean_title(title)
+    print("clean title",cleaned_title)
+    search_url = "https://api.themoviedb.org/3/search/movie"
+
+    response = requests.get(
+        search_url,
+        params={
+            "api_key": TMDB_API_KEY,
+            "query": cleaned_title
+        },
+        timeout=5
+    )
+    print("response",response)
+    if response.status_code != 200:
+        return None
+
+    results = response.json().get("results", [])
+    if not results:
+        return None
+
+    # Choose most popular match
+    results.sort(key=lambda x: x.get("popularity", 0), reverse=True)
+    movie = results[0]
+    movie_id = movie["id"]
+
+    details_url = f"https://api.themoviedb.org/3/movie/{movie_id}"
+
+    details_response = requests.get(
+        details_url,
+        params={"api_key": TMDB_API_KEY},
+        timeout=5
+    )
+    print("details",details_response)
+    if details_response.status_code != 200:
+        return None
+
+    details = details_response.json()
+
+    return {
+        "genre": ", ".join([g["name"] for g in details.get("genres", [])]),
+        "release_year": int(details["release_date"][:4])
+            if details.get("release_date") else 2000,
+        "duration": details.get("runtime", 120),
+        "country": details["production_countries"][0]["name"]
+            if details.get("production_countries") else "Unknown",
+        "age_rating": "PG-13"
+    }
+
+
+def preprocess_input(script_text, metadata):
     df = pd.DataFrame([{
-        "genre": data.genre,
-        "budget": data.budget,
-        "runtime": data.runtime,
-        "script_text": data.script_text
+        "Genre": metadata["genre"],
+        "Release_Year": metadata["release_year"],
+        "Duration": metadata["duration"],
+        "Country_of_Origin": metadata["country"],
+        "Age_Rating": metadata["age_rating"],
+        "Script_Text": script_text
     }])
 
-    # Numeric preprocessing
-    df[["budget", "runtime"]] = imputer.transform(df[["budget", "runtime"]])
+    # Numeric cleaning
+    df[["Release_Year", "Duration"]] = imputer.transform(
+        df[["Release_Year", "Duration"]]
+    )
 
-    # Categorical transform
-    categorical = ct.transform(df[["genre"]])
+    # Feature engineering
+    df["Num_Genres"] = len(metadata["genre"].split(",")) if metadata["genre"] else 0
+    df["Decade"] = (df["Release_Year"] // 10) * 10
 
-    # TFIDF transform
-    text_features = tfidf.transform(df["script_text"])
+    for g in genre_list:
+        df[f"Genre_{g}"] = int(g in metadata["genre"])
 
-    # Combine everything
+    meta_cols = [
+        "Age_Rating",
+        "Release_Year",
+        "Duration",
+        "Num_Genres",
+        "Decade",
+        "Country_of_Origin",
+    ] + [f"Genre_{g}" for g in genre_list]
+
+    X_meta = ct.transform(df[meta_cols])
+    X_text = tfidf.transform(df["Script_Text"])
+
     from scipy.sparse import hstack
-    X = hstack([categorical, text_features, df[["budget", "runtime"]]])
+    X = hstack([X_text, X_meta])
 
-    return X
+    return X.toarray()
 
 
 def generate_dashboard_metrics(probability: float):
-    """
-    Generate dashboard metrics based on success probability.
-    This keeps UI dynamic.
-    """
-
     box_office_low = int(50 + probability * 150)
     box_office_high = box_office_low + 55
 
@@ -92,27 +187,7 @@ def generate_dashboard_metrics(probability: float):
     }
 
 
-def extract_top_genres(probability_vector):
-    genre_scores = dict(zip(genre_list, probability_vector))
-
-    sorted_genres = sorted(
-        genre_scores.items(),
-        key=lambda x: x[1],
-        reverse=True
-    )
-
-    return [
-        {"genre": g[0], "score": round(float(g[1]) * 100, 2)}
-        for g in sorted_genres[:5]
-    ]
-
-
 def extract_key_themes(script_text: str):
-    """
-    Simple keyword-based theme detection.
-    Replace with NLP later if needed.
-    """
-
     themes = {
         "Redemption & Personal Growth": ["redemption", "growth", "change"],
         "Family Dynamics": ["family", "father", "mother"],
@@ -121,7 +196,6 @@ def extract_key_themes(script_text: str):
     }
 
     detected = []
-
     lower_text = script_text.lower()
 
     for theme, keywords in themes.items():
@@ -134,56 +208,83 @@ def extract_key_themes(script_text: str):
 
     return sorted(detected, key=lambda x: x["score"], reverse=True)
 
+def generate_genre_classification(metadata):
+    genres = [g.strip() for g in metadata["genre"].split(",") if g.strip()]
 
+    if not genres:
+        return []
+
+    # Give primary genre higher weight
+    genre_scores = []
+    base_score = 90
+
+    for i, g in enumerate(genres):
+        score = base_score - (i * 12)  # decreasing weight
+        genre_scores.append({
+            "genre": g,
+            "score": max(score, 40)
+        })
+
+    return genre_scores[:5]
 # ------------------------------------------------
 # MAIN PREDICTION ROUTE
 # ------------------------------------------------
-@router.post("/predict")
-async def predict_script(file: UploadFile = File(...)):
 
-    # Validate file presence
-    if not file:
-        raise HTTPException(status_code=400, detail="File is required")
+@router.post("/analyze")
+async def analyze_script(file: UploadFile = File(...)):
 
-    # Validate file type
     if not file.filename.endswith(".txt"):
-        raise HTTPException(
-            status_code=400,
-            detail="Only .txt files are supported"
-        )
+        raise HTTPException(status_code=400, detail="Only .txt files supported")
 
-    try:
-        # Read file
-        content = await file.read()
+    content = await file.read()
 
-        if not content:
-            raise HTTPException(status_code=400, detail="Empty file")
+    if not content:
+        raise HTTPException(status_code=400, detail="Empty file")
 
-        script_text = content.decode("utf-8")
+    script_text = content.decode("utf-8")
 
-        # Preprocess
-        X = preprocess_input(script_text)  # IMPORTANT: must match training pipeline
+    # Extract title from filename
+    movie_title = file.filename.replace(".txt", "").replace("_", " ").strip()
 
-        # Predict
-        prediction = model.predict(X)
-        success_probability = float(prediction[0][0])
+    # Fetch TMDB metadata
+    metadata = fetch_tmdb_metadata(movie_title)
 
-        # Generate metrics
-        dashboard_metrics = generate_dashboard_metrics(success_probability)
-        genres = extract_top_genres(success_probability)
-        themes = extract_key_themes(script_text)
+    if not metadata:
+        raise HTTPException(status_code=404, detail="Movie not found on TMDB")
 
-        return {
-            "success_probability": round(success_probability * 100, 2),
-            "box_office": dashboard_metrics["box_office_range"],
-            "audience_score": dashboard_metrics["audience_score"],
-            "critic_rating": dashboard_metrics["critic_rating"],
-            "genre_classification": genres,
-            "key_themes": themes
-        }
+    # Preprocess
+    X = preprocess_input(script_text, metadata)
 
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Prediction failed: {str(e)}"
-        )
+    # Predict
+    prediction = model.predict(X, verbose=0)
+    success_probability = float(prediction[0][0])
+    success_percent = round(success_probability * 100, 2)
+    
+    # Classification
+    if success_percent >= 75:
+        classification = "High probability of commercial success"
+    elif success_percent >= 50:
+        classification = "Moderate commercial potential"
+    else:
+        classification = "Low commercial viability"
+
+    # Derived metrics
+    box_office_low = int(50 + success_probability * 150)
+    box_office_high = box_office_low + 55
+    audience_score = round(6 + success_probability * 4, 1)
+    critic_rating = int(success_probability * 100 * 0.95)
+    genre_classification = generate_genre_classification(metadata)
+    print("genre classification", genre_classification)
+    themes = extract_key_themes(script_text)
+
+    return {
+    "title": movie_title,
+    "success_probability": success_percent,
+    "classification": classification,
+    "box_office_range": f"${box_office_low}M - ${box_office_high}M",
+    "audience_score": audience_score,
+    "critic_rating": critic_rating,
+    "key_themes": themes,
+    "genre_classification": genre_classification, 
+    "metadata_used": metadata
+}

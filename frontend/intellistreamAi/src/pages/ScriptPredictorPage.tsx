@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 import { Navigation } from "../components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { motion } from "motion/react";
@@ -41,14 +43,16 @@ export function ScriptPredictorPage({ onNavigate }: ScriptPredictorPageProps) {
     try {
       const formData = new FormData();
       formData.append("file", file);
-
-      const response = await fetch("http://localhost:8000/script-success/predict", {
+      const apiUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+      const response = await fetch(`${apiUrl}/script-success/analyze`, {
         method: "POST",
         body: formData
       });
 
       const data = await response.json();
-
+      console.log("GENRE TYPE:", typeof data.genre_classification);
+      console.log("IS ARRAY:", Array.isArray(data.genre_classification));
+      console.log("GENRE VALUE:", data.genre_classification);
       setResult(data);
       setShowResults(true);
 
@@ -156,7 +160,7 @@ export function ScriptPredictorPage({ onNavigate }: ScriptPredictorPageProps) {
                     {result.success_probability}%
                   </div>
                   <p className="text-slate-400">
-                    AI Predicted Commercial Success
+                    {result.classification}
                   </p>
                 </div>
 
@@ -165,7 +169,7 @@ export function ScriptPredictorPage({ onNavigate }: ScriptPredictorPageProps) {
                   <div className="text-center p-4 rounded-lg bg-slate-800/50">
                     <p className="text-slate-400">Box Office Potential</p>
                     <p className="text-green-400">
-                      {result.box_office}
+                      {result.box_office_range}
                     </p>
                   </div>
 
@@ -187,35 +191,67 @@ export function ScriptPredictorPage({ onNavigate }: ScriptPredictorPageProps) {
               </CardContent>
             </Card>
 
-            {/* THEMES */}
-            <Card className="backdrop-blur-lg bg-slate-900/50 border border-purple-500/30">
-              <CardHeader>
-                <CardTitle className="text-white">
-                  Key Themes Detected
-                </CardTitle>
-              </CardHeader>
+            {/* THEMES + GENRE SIDE BY SIDE */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-              <CardContent>
-                {result.key_themes.map((theme: any, index: number) => (
-                  <div key={index} className="mb-4">
-                    <div className="flex justify-between text-sm text-slate-300">
-                      <span>{theme.theme}</span>
-                      <span>{theme.score}%</span>
+              {/* THEMES */}
+              <Card className="backdrop-blur-lg bg-slate-900/50 border border-purple-500/30">
+                <CardHeader>
+                  <CardTitle className="text-white">
+                    Key Themes Detected
+                  </CardTitle>
+                </CardHeader>
+
+                <CardContent>
+                  {result.key_themes.map((theme: any, index: number) => (
+                    <div key={index} className="mb-4">
+                      <div className="flex justify-between text-sm text-slate-300">
+                        <span>{theme.theme}</span>
+                        <span>{theme.score}%</span>
+                      </div>
+                      <div className="h-2 bg-slate-800 rounded-full">
+                        <div
+                          className="h-full bg-gradient-to-r from-purple-500 to-blue-500"
+                          style={{ width: `${theme.score}%` }}
+                        />
+                      </div>
                     </div>
-                    <div className="h-2 bg-slate-800 rounded-full">
-                      <div
-                        className="h-full bg-gradient-to-r from-purple-500 to-blue-500"
-                        style={{ width: `${theme.score}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
+                  ))}
+                </CardContent>
+              </Card>
+
+              {/* GENRE CLASSIFICATION */}
+              <Card className="backdrop-blur-lg bg-slate-900/50 border border-blue-500/30">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center gap-2">
+                    <BarChart3 className="size-5 text-blue-400" />
+                    Genre Classification
+                  </CardTitle>
+                </CardHeader>
+
+                <CardContent>
+                  {result.genre_classification &&
+                    result.genre_classification.map((genre: any, index: number) => (
+                      <div key={index} className="mb-4">
+                        <div className="flex justify-between text-sm text-slate-300">
+                          <span>{genre.genre}</span>
+                          <span>{genre.score}%</span>
+                        </div>
+                        <div className="h-2 bg-slate-800 rounded-full">
+                          <div
+                            className="h-full bg-gradient-to-r from-blue-500 to-cyan-500"
+                            style={{ width: `${genre.score}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                </CardContent>
+              </Card>
+
+            </div>
 
           </div>
         )}
-
       </div>
     </div>
   );

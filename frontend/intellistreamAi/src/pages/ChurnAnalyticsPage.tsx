@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import { Navigation } from "../components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { motion } from "motion/react";
@@ -8,7 +9,6 @@ import { useState, useEffect } from "react";
 interface ChurnAnalyticsPageProps {
   onNavigate: (page: Page) => void;
 }
-
 export function ChurnAnalyticsPage({ onNavigate }: ChurnAnalyticsPageProps) {
   const [analytics, setAnalytics] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -18,8 +18,11 @@ export function ChurnAnalyticsPage({ onNavigate }: ChurnAnalyticsPageProps) {
       setLoading(true);
 
       try {
+        const apiUrl = import.meta.env.VITE_API_URL ;
+        console.log("API URL:", apiUrl);
+        console.log("Fetching churn analytics from:", `http://localhost:8000/churn_analytics/churn_analytics`);
         const response = await fetch(
-          "http://127.0.0.1:8000/churn_analytics/churn_analytics"
+          `${apiUrl}/churn_analytics/churn_analytics`
         );
 
         const data = await response.json();

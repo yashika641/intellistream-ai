@@ -265,13 +265,19 @@ for metric, value in test_metrics.items():
 
 
 # =========================
-# Step 10: Save Everything in ONE File
+# Step 10: Save Everything Properly
 # =========================
 
 import pickle
 
+# 1️⃣ Save neural network safely (NOT pickle)
+os.makedirs("models", exist_ok=True)
+
+model.save("C:\\Users\\palya\\Desktop\\intellistream\\intellistream-ai\\models\\hybrid_recommender_model.keras")
+print("✅ Neural network model saved")
+
+# 2️⃣ Save other objects separately
 hybrid_bundle = {
-    "model": model,
     "le_user": le_user,
     "le_movie": le_movie,
     "user_sim": user_sim,
@@ -280,9 +286,7 @@ hybrid_bundle = {
     "num_movies": num_movies
 }
 
-os.makedirs("models", exist_ok=True)
-
-with open("models/hybrid_recommender_bundle.pkl", "wb") as f:
+with open("C:\\Users\\palya\\Desktop\\intellistream\\intellistream-ai\\models\\hybrid_recommender_metadata.pkl", "wb") as f:
     pickle.dump(hybrid_bundle, f)
 
-print("✅ Hybrid recommender saved successfully")
+print("✅ Metadata saved successfully")

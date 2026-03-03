@@ -237,16 +237,24 @@ def train_model():
 # SAVE SINGLE FILE
 # -----------------------
 
-        full_pipeline = {
-            "model": model,
+        # -----------------------
+# SAVE PROPERLY
+# -----------------------
+
+        # 1️⃣ Save Keras model properly
+        model.save(os.path.join(MODEL_DIR, "ScriptSuccess_Model.keras"))
+
+        # 2️⃣ Save sklearn + metadata separately
+        metadata = {
             "tfidf": tfidf,
             "column_transformer": ct,
             "imputer": num_imputer,
             "genre_list": list(all_genres)
         }
 
-        joblib.dump(full_pipeline, os.path.join(MODEL_DIR, "ScriptSuccess_FullPipeline.pkl"))
+        joblib.dump(metadata, os.path.join(MODEL_DIR, "ScriptSuccess_Metadata.pkl"))
 
+        print("\n✅ Model and metadata saved successfully!")
         print("\n✅ Single model file saved successfully!")
 
         return model
