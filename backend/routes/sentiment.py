@@ -9,7 +9,7 @@ TRACKED_SYMBOLS = [
 ]
 
 from fastapi import APIRouter
-from backend.sentiment_service import DashboardService
+from sentiment_service import DashboardService
 
 router = APIRouter()
 
