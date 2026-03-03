@@ -1,0 +1,20 @@
+artifact_path: models/DenseNN
+flavors:
+  python_function:
+    data: data
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.tensorflow
+    python_version: 3.10.19
+  tensorflow:
+    code: null
+    data: data
+    keras_version: 2.15.0
+    model_type: keras
+    save_format: tf
+mlflow_version: 2.16.0
+model_size_bytes: 20592281
+model_uuid: 2d1ea184c673456c9f1fdba73812b058
+run_id: 01db54ffd6194b569e187328c5934a54
+utc_time_created: '2025-10-28 13:43:47.624419'

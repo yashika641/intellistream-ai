@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/654205473056319555/65017d1e8cdf43929e6bbe334696dbd7/artifacts
+end_time: 1761659783130
+entry_point_name: ''
+experiment_id: '654205473056319555'
+lifecycle_stage: active
+run_id: 65017d1e8cdf43929e6bbe334696dbd7
+run_name: ExtraTrees
+run_uuid: 65017d1e8cdf43929e6bbe334696dbd7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761659780048
+status: 3
+tags: []
+user_id: palya

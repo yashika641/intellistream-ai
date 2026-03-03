@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/kdiga/Desktop/intellistream-ai/mlruns/271904074615248276/a42e44bd79eb4458a984c1696f329a9b/artifacts
+end_time: 1772214470892
+entry_point_name: ''
+experiment_id: '271904074615248276'
+lifecycle_stage: active
+run_id: a42e44bd79eb4458a984c1696f329a9b
+run_name: DenseNN_TFIDF_Final
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1772214467715
+status: 3
+tags: []
+user_id: kdiga

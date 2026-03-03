@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/246937040263744994/c38017679c8b4e52bd8ad21d28961d6f/artifacts
+end_time: 1761926918597
+entry_point_name: ''
+experiment_id: '246937040263744994'
+lifecycle_stage: active
+run_id: c38017679c8b4e52bd8ad21d28961d6f
+run_name: Lasso
+run_uuid: c38017679c8b4e52bd8ad21d28961d6f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761926884446
+status: 3
+tags: []
+user_id: palya

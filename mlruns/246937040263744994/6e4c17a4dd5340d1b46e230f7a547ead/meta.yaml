@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/246937040263744994/6e4c17a4dd5340d1b46e230f7a547ead/artifacts
+end_time: 1761931020579
+entry_point_name: ''
+experiment_id: '246937040263744994'
+lifecycle_stage: active
+run_id: 6e4c17a4dd5340d1b46e230f7a547ead
+run_name: XGB_Volume_Model
+run_uuid: 6e4c17a4dd5340d1b46e230f7a547ead
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761931007094
+status: 3
+tags: []
+user_id: palya

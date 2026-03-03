@@ -1,0 +1,6 @@
+artifact_location: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/501997618958955689
+creation_time: 1761931577419
+experiment_id: '501997618958955689'
+last_update_time: 1761931577419
+lifecycle_stage: active
+name: Netflix_7Day_LSTM_with_Sentiment

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/927584733532592506/6672a7d9622e432284b955bdad6d0abe/artifacts
+end_time: 1761660598219
+entry_point_name: ''
+experiment_id: '927584733532592506'
+lifecycle_stage: active
+run_id: 6672a7d9622e432284b955bdad6d0abe
+run_name: CatBoost
+run_uuid: 6672a7d9622e432284b955bdad6d0abe
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761660512761
+status: 3
+tags: []
+user_id: palya

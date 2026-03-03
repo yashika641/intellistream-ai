@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/927584733532592506/7fc3bf7a64aa400590e7141acdadeaa2/artifacts
+end_time: 1761660204705
+entry_point_name: ''
+experiment_id: '927584733532592506'
+lifecycle_stage: active
+run_id: 7fc3bf7a64aa400590e7141acdadeaa2
+run_name: AdaBoost
+run_uuid: 7fc3bf7a64aa400590e7141acdadeaa2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761660199497
+status: 3
+tags: []
+user_id: palya

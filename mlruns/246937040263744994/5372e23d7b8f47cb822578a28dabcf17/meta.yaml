@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/246937040263744994/5372e23d7b8f47cb822578a28dabcf17/artifacts
+end_time: 1761834100470
+entry_point_name: ''
+experiment_id: '246937040263744994'
+lifecycle_stage: active
+run_id: 5372e23d7b8f47cb822578a28dabcf17
+run_name: LinearRegression
+run_uuid: 5372e23d7b8f47cb822578a28dabcf17
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761834096038
+status: 3
+tags: []
+user_id: palya

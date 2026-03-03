@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/0/6941e8b5c6b749f2bf2a9c7f5c150000/artifacts
+end_time: 1761664029541
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 6941e8b5c6b749f2bf2a9c7f5c150000
+run_name: DeepLearning_DenseNN
+run_uuid: 6941e8b5c6b749f2bf2a9c7f5c150000
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761663990352
+status: 3
+tags: []
+user_id: palya

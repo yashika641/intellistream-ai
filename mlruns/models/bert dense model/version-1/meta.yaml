@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1761664989524
+current_stage: None
+description: ''
+last_updated_timestamp: 1761664989524
+name: bert dense model
+run_id: 9e46faf7fd7d47988720764f1197be35
+run_link: ''
+source: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/927584733532592506/9e46faf7fd7d47988720764f1197be35/artifacts/models/BERTDense
+status: READY
+status_message: null
+storage_location: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/927584733532592506/9e46faf7fd7d47988720764f1197be35/artifacts/models/BERTDense
+user_id: null
+version: 1

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/280701932660019659/1d4da0aacd0d46eaa486c500a54e6d3a/artifacts
+end_time: 1761664065474
+entry_point_name: ''
+experiment_id: '280701932660019659'
+lifecycle_stage: active
+run_id: 1d4da0aacd0d46eaa486c500a54e6d3a
+run_name: BERTDense_Meta_OneHotGenre
+run_uuid: 1d4da0aacd0d46eaa486c500a54e6d3a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761664019154
+status: 3
+tags: []
+user_id: palya

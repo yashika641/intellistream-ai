@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/391780582589022081/e739570fb12a4c1e8f1cd6164c68e4ae/artifacts
+end_time: 1761933761395
+entry_point_name: ''
+experiment_id: '391780582589022081'
+lifecycle_stage: active
+run_id: e739570fb12a4c1e8f1cd6164c68e4ae
+run_name: adaptable-cat-442
+run_uuid: e739570fb12a4c1e8f1cd6164c68e4ae
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761933716871
+status: 3
+tags: []
+user_id: palya

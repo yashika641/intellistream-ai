@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/654205473056319555/4f548b16fb1e4238994c617de0405134/artifacts
+end_time: 1761658882397
+entry_point_name: ''
+experiment_id: '654205473056319555'
+lifecycle_stage: active
+run_id: 4f548b16fb1e4238994c617de0405134
+run_name: RidgeClassifier
+run_uuid: 4f548b16fb1e4238994c617de0405134
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761658880127
+status: 3
+tags: []
+user_id: palya

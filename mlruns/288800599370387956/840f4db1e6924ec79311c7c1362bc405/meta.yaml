@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/palya/Desktop/intellistream/intellistream-ai/mlruns/288800599370387956/840f4db1e6924ec79311c7c1362bc405/artifacts
+end_time: 1761833880420
+entry_point_name: ''
+experiment_id: '288800599370387956'
+lifecycle_stage: active
+run_id: 840f4db1e6924ec79311c7c1362bc405
+run_name: LightGBM
+run_uuid: 840f4db1e6924ec79311c7c1362bc405
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761833875765
+status: 4
+tags: []
+user_id: palya

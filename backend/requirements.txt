@@ -1,0 +1,114 @@
+# =========================
+# 📦 CORE PYTHON LIBRARIES
+# =========================
+numpy 
+pandas 
+scikit-learn 
+scipy 
+matplotlib
+seaborn
+joblib
+tqdm
+faker
+
+# =========================
+# 🤖 DEEP LEARNING
+# =========================
+tensorflow
+tensorflow-intel 
+keras
+torch 
+torchvision
+fastai
+tensorflow-recommenders
+tensorflow-datasets
+
+# =========================
+# 🧠 NLP & TRANSFORMERS
+# =========================
+transformers
+sentence-transformers
+nltk
+textblob
+spacy
+
+# =========================
+# 📈 ML, OPTIMIZATION & EXPLAINABILITY
+# =========================
+xgboost
+lightgbm
+catboost
+shap
+lime
+optuna
+statsmodels
+
+# =========================
+# 🔮 FORECASTING & MLOPS
+# =========================
+prophet
+mlflow 
+dvc
+dvc[gdrive]
+dagshub
+hydra-core
+pydantic
+
+# =========================
+# 🌐 WEB, API & DASHBOARDS
+# =========================
+flask
+fastapi
+uvicorn
+dash
+streamlit
+gradio
+plotly
+
+# =========================
+# 🧰 UTILITIES & I/O
+# =========================
+swifter
+fitz
+pyyaml
+pyarrow
+requests
+beautifulsoup4
+lxml
+python-magic
+openai
+azure-ai-textanalytics
+yfinance
+vadersentiment
+cloudpickle
+psutil
+pyngrok
+
+# =========================
+# 🧾 LOGGING & MONITORING
+# =========================
+tensorboard
+wandb
+comet-ml
+loguru
+
+# =========================
+# 🧠 FEATURE STORES & PIPELINING
+# =========================
+
+# =========================
+# ⚙️ DEPENDENCY FIXES
+# =========================
+protobuf 
+# ml-dtypes==0.2.0
+tools
+
+googlenews
+yahoo_fin
+apscheduler
+psycopg2
+supabase
+
+torch==2.6.0
+torchvision==0.21.0
+torchaudio==2.6.0
