@@ -19,6 +19,12 @@ router = APIRouter(
 )
 
 # ==========================================
+# Prophet Model Cache
+# ==========================================
+
+prophet_models = {}
+
+# ==========================================
 # Utility: Fetch Real-Time Data
 # ==========================================
 
@@ -55,19 +61,41 @@ def get_realtime_data(symbol: str):
 # Utility: Prophet Forecast
 # ==========================================
 
-def generate_prophet_forecast(symbol: str, days: int):
+def train_prophet_model(symbol: str):
     """
-    Generate Prophet forecast for next N days.
+    Train and cache a Prophet model for the given symbol.
     """
+    global prophet_models
+
+    print(f"🚀 Training Prophet model for {symbol}...")
+
     ticker = yf.Ticker(symbol)
     hist = ticker.history(period="1y")
 
     df = hist.reset_index()[["Date", "Close"]]
     df.columns = ["ds", "y"]
     df["ds"] = df["ds"].dt.tz_localize(None)
-    
-    model = Prophet(daily_seasonality='auto')
+
+    model = Prophet(daily_seasonality="auto")
     model.fit(df)
+
+    prophet_models[symbol] = model
+
+    print(f"✅ Prophet model ready for {symbol}")
+
+
+def generate_prophet_forecast(symbol: str, days: int):
+    """
+    Generate Prophet forecast for next N days.
+    Model is trained only once per symbol.
+    """
+
+    global prophet_models
+
+    if symbol not in prophet_models:
+        train_prophet_model(symbol)
+
+    model = prophet_models[symbol]
 
     future = model.make_future_dataframe(periods=days)
     forecast = model.predict(future)

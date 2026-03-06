@@ -40,10 +40,10 @@ MODEL_PATH = os.path.join(
 
 print(f"🔍 Loading model from: {MODEL_PATH}")
 
-with open(MODEL_PATH, "rb") as f:
-    model = pickle.load(f)
+# with open(MODEL_PATH, "rb") as f:
+#     model = pickle.load(f)
 
-print("✅ Supabase batch service ready")
+# print("✅ Supabase batch service ready")
 
 
 # --------------------------------------------------
@@ -54,6 +54,16 @@ def run_churn_batch():
     print("🚀 Running churn batch job...")
 
     try:
+        print("🚀 Running churn batch job...")
+        # ----------------------------
+        # Load Model ONLY when needed
+        # ----------------------------
+        print(f"🔍 Loading model from: {MODEL_PATH}")
+
+        with open(MODEL_PATH, "rb") as f:
+            model = pickle.load(f)
+
+        print("✅ Model loaded")
         # --------------------------------------------------
         # Fetch customers from Supabase
         # --------------------------------------------------

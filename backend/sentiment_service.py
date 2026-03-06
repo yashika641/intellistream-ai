@@ -33,14 +33,6 @@ TRACKED_SYMBOLS = [
 # ------------------------------------------------
 # Load Sentiment Model ONCE (Important)
 # ------------------------------------------------
-print("🔥 Loading sentiment model (PyTorch)...")
-
-sentiment_model = pipeline(
-    "sentiment-analysis",
-    model="cardiffnlp/twitter-roberta-base-sentiment",
-    framework="pt",
-    device=-1  # CPU (change to 0 if GPU available)
-)
 
 # ------------------------------------------------
 # Helper Functions
@@ -71,9 +63,28 @@ STOPWORDS = {
 # Dashboard Service
 # ------------------------------------------------
 class DashboardService:
+    # ------------------------------------------------
+    # Lazy Load Sentiment Model
+    # ------------------------------------------------
+    sentiment_model = None
 
+    @staticmethod
+    def get_sentiment_model():
+        if DashboardService.sentiment_model is None:
+            print("🔥 Loading sentiment model (PyTorch)...")
+
+            DashboardService.sentiment_model = pipeline(
+                "sentiment-analysis",
+                model="cardiffnlp/twitter-roberta-base-sentiment",
+                framework="pt",
+                device=-1
+            )
+
+            print("✅ Sentiment model loaded")
+
+        return DashboardService.sentiment_model
     def __init__(self):
-        self.model = sentiment_model
+        self.model = self.get_sentiment_model()
         self.base_url = "https://newsapi.org/v2/everything"
 
     # ------------------------------------------------
