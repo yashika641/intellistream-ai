@@ -12,8 +12,8 @@ from datetime import datetime
 # Add parent directory to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from backend.database import supabase
-from model_codes.churn_prediction_model import (
+from database import supabase
+from churn_prediction_model import (
     preprocess_data,
     feature_engineering
 )
@@ -29,7 +29,7 @@ load_dotenv()
 # --------------------------------------------------
 
 BASE_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..")
+    os.path.join(os.path.dirname(__file__), ".")
 )
 
 MODEL_PATH = os.path.join(

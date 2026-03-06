@@ -34,7 +34,7 @@ import pickle
 from keras.models import load_model
 
 BASE_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..")
+    os.path.join(os.path.dirname(__file__), "..")
 )
 
 MODEL_PATH = os.path.join(BASE_DIR, "models", "hybrid_recommender_model.keras")
@@ -114,7 +114,7 @@ def fetch_movie_poster(movie_name: str) -> str | None:
 import pandas as pd
 
 # Load original movies dataset
-movies_df = pd.read_csv(os.path.join(BASE_DIR, "docs", "movie_metadata.csv"))  
+movies_df = pd.read_csv(os.path.join(BASE_DIR, "movie_metadata.csv"))  
 # Must contain columns: title, genre
 
 movie_genre_map = dict(zip(movies_df["Movie_Name"], movies_df["Genre"]))

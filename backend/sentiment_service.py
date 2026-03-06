@@ -12,13 +12,13 @@ from transformers import pipeline
 # Load Environment Variables
 # ------------------------------------------------
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-env_path = os.path.join(BASE_DIR, ".env")
+env_path = os.path.join(BASE_DIR, "backend/.env")
 
 print(f"🔍 Loading environment variables from: {env_path}")
 load_dotenv(env_path)
 
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
-
+print(NEWS_API_KEY)
 # ------------------------------------------------
 # Symbols You Want To Track
 # ------------------------------------------------

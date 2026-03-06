@@ -23,7 +23,7 @@ router = APIRouter(
 # ------------------------------------------------
 
 BASE_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..")
+    os.path.join(os.path.dirname(__file__), "..")
 )
 
 MODEL_PATH = os.path.join(BASE_DIR, "models", "ScriptSuccess_Model.keras")
