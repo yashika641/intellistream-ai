@@ -59,7 +59,7 @@ pydantic
 # =========================
 flask
 fastapi
-uvicorn
+uvicorn[standard]
 dash
 streamlit
 gradio
