@@ -6,7 +6,8 @@ from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import HTMLResponse
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from routes import churn, recommender ,script_predictor, stock, sentiment
+from routes import churn
+# , recommender ,script_predictor, stock, sentiment
 from services import run_churn_batch
 
 # --------------------------------------------------
@@ -49,10 +50,10 @@ app.add_middleware(
 # Include Routes
 # --------------------------------------------------
 app.include_router(churn.router)
-app.include_router(recommender.router)
-app.include_router(script_predictor.router)
-app.include_router(stock.router)
-app.include_router(sentiment.router)
+# app.include_router(recommender.router)
+# app.include_router(script_predictor.router)
+# app.include_router(stock.router)
+# app.include_router(sentiment.router)
 # app.include_router(ai_insights.router)
 
 # --------------------------------------------------
