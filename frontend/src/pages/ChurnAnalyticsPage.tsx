@@ -18,13 +18,13 @@ export function ChurnAnalyticsPage({ onNavigate }: ChurnAnalyticsPageProps) {
       setLoading(true);
 
       try {
-        const apiUrl = import.meta.env.VITE_API_URL ;
+        const apiUrl = import.meta.env.VITE_API_URL as string;
         console.log("API URL:", apiUrl);
-        console.log("Fetching churn analytics from:", `http://localhost:8000/churn_analytics/churn_analytics`);
+        // console.log("Fetching churn analytics from:", `http://localhost:8000/churn_analytics/churn_analytics`);
         const response = await fetch(
           `${apiUrl}/churn_analytics/churn_analytics`
         );
-
+        console.log("Response status:", response.status);
         const data = await response.json();
         setAnalytics(data);
 
