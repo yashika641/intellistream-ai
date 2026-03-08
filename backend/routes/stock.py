@@ -9,9 +9,7 @@ Provides:
 """
 
 from fastapi import APIRouter
-from prophet import Prophet
 import pandas as pd
-import yfinance as yf
 from datetime import datetime
 
 router = APIRouter(tags=["Stock Dashboard"])
@@ -28,6 +26,8 @@ dashboard_cache = {}
 # ==========================================
 
 def get_realtime_data(symbol: str):
+    import yfinance as yf
+    
     try:
         ticker = yf.Ticker(symbol)
         data = ticker.history(period="1d", interval="5m")
@@ -62,6 +62,9 @@ def get_realtime_data(symbol: str):
 # ==========================================
 
 def train_prophet_model(symbol: str):
+    from prophet import Prophet
+    import yfinance as yf
+    
 
     global prophet_models
 

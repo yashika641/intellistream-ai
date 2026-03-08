@@ -6,7 +6,6 @@ import os
 from typing import List, Dict
 from dotenv import load_dotenv
 import requests
-from transformers import pipeline
 
 # ------------------------------------------------
 # Load Environment Variables
@@ -74,6 +73,8 @@ class DashboardService:
     def get_sentiment_model():
         if DashboardService.sentiment_model is None:
             print("🔥 Loading sentiment model (PyTorch)...")
+            from transformers import pipeline
+            
 
             DashboardService.sentiment_model = pipeline(
                 "sentiment-analysis",

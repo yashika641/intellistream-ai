@@ -2,7 +2,6 @@
 import os
 import pickle
 import pandas as pd
-from keras.models import load_model
 
 model_instance = None
 metadata_bundle = None
@@ -11,6 +10,7 @@ movie_genre_map = None
 def load_models():
 
     global model_instance, metadata_bundle, movie_genre_map
+    from keras.models import load_model
 
     BASE_DIR = os.path.abspath(
         os.path.join(os.path.dirname(__file__), "..",".")
@@ -36,7 +36,6 @@ def load_models():
     
 import os
 import joblib
-from keras.models import load_model
 
 script_model = None
 script_metadata = None
@@ -48,6 +47,7 @@ genre_list = None
 
 
 def load_script_success_model():
+    from keras.models import load_model
 
     global script_model
     global script_metadata

@@ -1,5 +1,8 @@
 # backend/main.py
 import os
+import matplotlib
+
+matplotlib.use("Agg")
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
@@ -36,18 +39,24 @@ scheduler.add_job(
     minutes=5
 )
 
+
 import threading
+
+
+
+def load_all_models():
+    from routes.model_loaders import load_models, load_script_success_model
+    print("Loading ML models...")
+    load_models()
+    load_script_success_model()
+    print("All ML models loaded")
 
 @app.on_event("startup")
 def startup_event():
-    if not scheduler.running:
-        scheduler.start()
-        print("✅ Scheduler started")
+    print("Server started")
 
-    # Load ML models in background so server starts instantly
-    threading.Thread(target=load_models).start()
-    threading.Thread(target=load_script_success_model).start()
-    
+    # run model loading AFTER server binds port
+    threading.Timer(1, load_all_models).start()
 
 @app.on_event("shutdown")
 def shutdown_event():
