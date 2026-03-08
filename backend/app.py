@@ -6,7 +6,7 @@ from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import HTMLResponse
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from routes import churn, recommender ,script_predictor
+from routes import churn, recommender ,script_predictor, stock, sentiment
 from services import run_churn_batch
 
 # --------------------------------------------------
@@ -21,13 +21,14 @@ app = FastAPI(
 # --------------------------------------------------
 # Scheduler (Portfolio-friendly batch automation)
 # --------------------------------------------------
-scheduler = BackgroundScheduler()
+scheduler = BackgroundScheduler(daemon=True)
 scheduler.add_job(run_churn_batch, "interval", hours=24)  # Run every 24 hours
 
 @app.on_event("startup")
 def startup_event():
-    scheduler.start()
-    print("✅ Scheduler started")
+    if not scheduler.running:
+        scheduler.start()
+        print("✅ Scheduler started")
 
 @app.on_event("shutdown")
 def shutdown_event():
@@ -39,7 +40,10 @@ def shutdown_event():
 # --------------------------------------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173","https://intellistream-ai.netlify.app/"],
+    allow_origins=[
+    "http://localhost:5173",
+    "https://intellistream-ai.netlify.app"
+],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -51,8 +55,8 @@ app.add_middleware(
 app.include_router(churn.router)
 app.include_router(recommender.router)
 app.include_router(script_predictor.router)
-# app.include_router(stock.router)
-# app.include_router(sentiment.router)
+app.include_router(stock.router)
+app.include_router(sentiment.router)
 # app.include_router(ai_insights.router)
 
 # --------------------------------------------------

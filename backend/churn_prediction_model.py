@@ -44,9 +44,14 @@ from utils.file_handler import load_csv
 
 logger = get_logger("churn_model_training")
 from dotenv import load_dotenv
-load_dotenv()
-BASE_DIR = os.getenv("BASE_DIR")
-print("BASE_DIR from .env:", BASE_DIR)
+BASE_DIR = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), ".")
+)
+env_path = os.path.join(BASE_DIR, ".env")
+if not os.path.exists(env_path):    
+    raise RuntimeError(f".env file not found at {env_path}")
+load_dotenv(env_path)
+print("BASE_DIR from .env:", env_path)
 # -----------------------------------------------------
 # 🧩 PREPROCESSING
 # -----------------------------------------------------
