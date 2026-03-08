@@ -60,8 +60,9 @@ def startup_event():
 
 @app.on_event("shutdown")
 def shutdown_event():
-    scheduler.shutdown()
-    print("🛑 Scheduler stopped")
+    if scheduler.running:
+        scheduler.shutdown()
+        print("🛑 Scheduler stopped")
 
 # --------------------------------------------------
 # CORS (Vite frontend)
