@@ -1,13 +1,11 @@
 import os
-import pickle
-import sys
 import numpy as np
 import requests
 from typing import List, Dict
 
 from fastapi import APIRouter, HTTPException
 from dotenv import load_dotenv
-
+from . import model_loaders
 
 # =====================================================
 # Router Configuration
@@ -25,54 +23,34 @@ TMDB_TOKEN = os.getenv("TMDB_BEARER")
 if not TMDB_TOKEN:
     raise RuntimeError("TMDB_BEARER not found in environment variables.")
 
-
-# =====================================================
-# Load Hybrid Model (Load Once at Startup)
-# =====================================================
-import os
-import pickle
-from keras.models import load_model
-
-BASE_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..")
-)
-
-MODEL_PATH = os.path.join(BASE_DIR, "models", "hybrid_recommender_model.keras")
-META_PATH = os.path.join(BASE_DIR, "models", "hybrid_recommender_metadata.pkl")
-
-print(f"🔍 Loading recommender model from: {MODEL_PATH}")
-
-# ----------------------------
-# Load Neural Network
-# ----------------------------
-if not os.path.exists(MODEL_PATH):
-    raise RuntimeError(f"Model file not found at {MODEL_PATH}")
-
-try:
-    model_instance = load_model(MODEL_PATH)
-    if model_instance is None:
-        raise RuntimeError(f"Model loaded but is None from {MODEL_PATH}")
-    print("✅ Recommender model loaded successfully")
-except Exception as e:
-    raise RuntimeError(f"Failed to load model from {MODEL_PATH}: {str(e)}")
-
 # ----------------------------
 # Load Metadata
 # ----------------------------
-if not os.path.exists(META_PATH):
-    raise RuntimeError(f"Metadata file not found at {META_PATH}")
+def get_metadata():
+    print("🔍 Loading recommender metadata...")
+    print(f"Metadata bundle: {model_loaders.metadata_bundle is not None}")
+    
+    if model_loaders.metadata_bundle is None:
+        raise RuntimeError("Recommender metadata not loaded")
 
-with open(META_PATH, "rb") as f:
-    metadata_bundle = pickle.load(f)
+    return (
+        model_loaders.metadata_bundle["le_user"],
+        model_loaders.metadata_bundle["le_movie"],
+        model_loaders.metadata_bundle["user_sim"],
+        model_loaders.metadata_bundle["user_item_matrix"],
+        model_loaders.metadata_bundle["review_feature_size"],
+        model_loaders.metadata_bundle["num_movies"]
+    )
+print("Metadata bundle in recommender route:", model_loaders.metadata_bundle is not None)
+print("Model instance in recommender route:", model_loaders.model_instance is not None)
+# le_user = model_loaders.metadata_bundle["le_user"]
+# le_movie = model_loaders.metadata_bundle["le_movie"]
+# user_sim = model_loaders.metadata_bundle["user_sim"]
+# user_item_matrix = model_loaders.metadata_bundle["user_item_matrix"]
+# review_feature_size = model_loaders.metadata_bundle["review_feature_size"]
+# num_movies = model_loaders.metadata_bundle["num_movies"]
 
-le_user = metadata_bundle["le_user"]
-le_movie = metadata_bundle["le_movie"]
-user_sim = metadata_bundle["user_sim"]
-user_item_matrix = metadata_bundle["user_item_matrix"]
-review_feature_size = metadata_bundle["review_feature_size"]
-num_movies = metadata_bundle["num_movies"]
-
-print("✅ Recommender metadata loaded successfully")# =====================================================
+# print("✅ Recommender metadata loaded successfully")# =====================================================
 # TMDB Poster Fetcher
 # =====================================================
 
@@ -114,10 +92,6 @@ def fetch_movie_poster(movie_name: str) -> str | None:
 import pandas as pd
 
 # Load original movies dataset
-movies_df = pd.read_csv(os.path.join(BASE_DIR, "movie_metadata.csv"))  
-# Must contain columns: title, genre
-
-movie_genre_map = dict(zip(movies_df["Movie_Name"], movies_df["Genre"]))
 
 def hybrid_recommend(user_id: str, top_n: int = 6, alpha: float = 0.5):
     """
@@ -125,6 +99,8 @@ def hybrid_recommend(user_id: str, top_n: int = 6, alpha: float = 0.5):
     - Neural Network predictions
     - Collaborative Filtering scores
     """
+    
+    le_user, le_movie, user_sim, user_item_matrix, review_feature_size, num_movies = get_metadata()
 
     if user_id not in le_user.classes_:
         raise ValueError("User not found in training data")
@@ -140,10 +116,10 @@ def hybrid_recommend(user_id: str, top_n: int = 6, alpha: float = 0.5):
     review_input = np.zeros((num_movies, review_feature_size))
 
     # Neural Network Predictions
-    if model_instance is None:
+    if model_loaders.model_instance is None:
         raise RuntimeError("Model instance is not loaded")
 
-    nn_preds = model_instance(
+    nn_preds = model_loaders.model_instance(
         [
             np.full(num_movies, user_idx).astype("int32"),
             movies,
@@ -178,6 +154,7 @@ def get_watch_time(customer_id: str) -> int:
     Calculate total watch time (in hours) for a user
     based on interaction matrix.
     """
+    le_user, le_movie, user_sim, user_item_matrix, review_feature_size, num_movies = get_metadata()
 
     if customer_id not in le_user.classes_:
         return 0
@@ -200,6 +177,7 @@ def get_top_genre(customer_id: str):
     """
     Returns user's most watched genre and percentage.
     """
+    le_user, le_movie, user_sim, user_item_matrix, review_feature_size, num_movies = get_metadata()
 
     if customer_id not in le_user.classes_:
         return "Unknown", 0
@@ -216,7 +194,7 @@ def get_top_genre(customer_id: str):
 
     for movie_idx in watched_indices:
         movie_name = le_movie.inverse_transform([movie_idx])[0]
-        genre = movie_genre_map.get(movie_name, "Unknown")
+        genre = model_loaders.movie_genre_map.get(movie_name, "Unknown")
         genres.append(genre)
 
     counter = Counter(genres)
@@ -231,6 +209,7 @@ def get_user_similarity(customer_id: str) -> float:
     Returns average similarity score of user
     compared to other users.
     """
+    le_user, le_movie, user_sim, user_item_matrix, review_feature_size, num_movies = get_metadata()
 
     if customer_id not in le_user.classes_:
         return 0.0
@@ -312,6 +291,8 @@ def get_recommendations(customer_id: str) -> Dict:
         
 @router.get("/debug/users")
 def get_available_users():
+    le_user, le_movie, user_sim, user_item_matrix, review_feature_size, num_movies = get_metadata()
+
     return {
         "total_users": len(le_user.classes_),
         "sample_users": le_user.classes_[:20].tolist()

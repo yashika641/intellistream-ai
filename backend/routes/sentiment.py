@@ -11,10 +11,15 @@ TRACKED_SYMBOLS = [
 from fastapi import APIRouter
 from sentiment_service import DashboardService
 
+# routes/sentiment_dashboard.py
+
 router = APIRouter()
 
-dashboard_service = DashboardService()
+def get_dashboard_service():
+    return DashboardService()
+
 
 @router.get("/dashboard")
 def get_dashboard(symbol: str = "Netflix"):
-    return dashboard_service.process_symbol(symbol)
+    service = get_dashboard_service()
+    return service.process_symbol(symbol)

@@ -1,14 +1,11 @@
 import os
-import joblib
-import numpy as np
 import pandas as pd
 import requests
 import re
 
 from fastapi import APIRouter, HTTPException, UploadFile, File
 from pydantic import BaseModel
-from keras.models import load_model
-
+from . import model_loaders
 # ------------------------------------------------
 # ROUTER SETUP
 # ------------------------------------------------
@@ -18,35 +15,7 @@ router = APIRouter(
     tags=["Script Success Predictor"]
 )
 
-# ------------------------------------------------
-# LOAD MODEL + METADATA
-# ------------------------------------------------
 
-BASE_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..")
-)
-
-MODEL_PATH = os.path.join(BASE_DIR, "models", "ScriptSuccess_Model.keras")
-META_PATH = os.path.join(BASE_DIR, "models", "ScriptSuccess_Metadata.pkl")
-
-if not os.path.exists(MODEL_PATH):
-    raise RuntimeError("Keras model file not found!")
-
-if not os.path.exists(META_PATH):
-    raise RuntimeError("Metadata file not found!")
-
-# Load Keras model
-model = load_model(MODEL_PATH)
-
-# Load sklearn metadata
-metadata_bundle = joblib.load(META_PATH)
-
-tfidf = metadata_bundle["tfidf"]
-ct = metadata_bundle["column_transformer"]
-imputer = metadata_bundle["imputer"]
-genre_list = metadata_bundle["genre_list"]
-
-print("✅ Script Success model loaded successfully")
 
 # ------------------------------------------------
 # REQUEST SCHEMA (kept as requested)
@@ -144,7 +113,7 @@ def preprocess_input(script_text, metadata):
     }])
 
     # Numeric cleaning
-    df[["Release_Year", "Duration"]] = imputer.transform(
+    df[["Release_Year", "Duration"]] = model_loaders.imputer.transform(
         df[["Release_Year", "Duration"]]
     )
 
@@ -152,7 +121,7 @@ def preprocess_input(script_text, metadata):
     df["Num_Genres"] = len(metadata["genre"].split(",")) if metadata["genre"] else 0
     df["Decade"] = (df["Release_Year"] // 10) * 10
 
-    for g in genre_list:
+    for g in model_loaders.genre_list:
         df[f"Genre_{g}"] = int(g in metadata["genre"])
 
     meta_cols = [
@@ -162,10 +131,10 @@ def preprocess_input(script_text, metadata):
         "Num_Genres",
         "Decade",
         "Country_of_Origin",
-    ] + [f"Genre_{g}" for g in genre_list]
+    ] + [f"Genre_{g}" for g in model_loaders.genre_list]
 
-    X_meta = ct.transform(df[meta_cols])
-    X_text = tfidf.transform(df["Script_Text"])
+    X_meta = model_loaders.ct.transform(df[meta_cols])
+    X_text = model_loaders.tfidf.transform(df["Script_Text"])
 
     from scipy.sparse import hstack
     X = hstack([X_text, X_meta])
@@ -256,7 +225,10 @@ async def analyze_script(file: UploadFile = File(...)):
     X = preprocess_input(script_text, metadata)
 
     # Predict
-    prediction = model.predict(X, verbose=0)
+    if model_loaders.script_model is None:
+        raise HTTPException(status_code=500, detail="ML model not loaded")
+    
+    prediction = model_loaders.script_model.predict(X, verbose=0)
     success_probability = float(prediction[0][0])
     success_percent = round(success_probability * 100, 2)
     

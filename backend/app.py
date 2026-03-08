@@ -1,5 +1,8 @@
 # backend/main.py
+import os
 
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html
@@ -8,6 +11,9 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 from routes import churn, recommender ,script_predictor, stock, sentiment
 from services import run_churn_batch
+from routes.model_loaders import load_models , load_script_success_model
+from routes.stock import run_stock_dashboard_batch
+
 
 # --------------------------------------------------
 # Create App
@@ -23,12 +29,21 @@ app = FastAPI(
 # --------------------------------------------------
 scheduler = BackgroundScheduler(daemon=True)
 scheduler.add_job(run_churn_batch, "interval", hours=24)  # Run every 24 hours
+# Stock dashboard job every 5 minutes
+scheduler.add_job(
+    run_stock_dashboard_batch,
+    "interval",
+    minutes=5
+)
 
 @app.on_event("startup")
 def startup_event():
     if not scheduler.running:
         scheduler.start()
+        load_models()
+        load_script_success_model()
         print("✅ Scheduler started")
+    
 
 @app.on_event("shutdown")
 def shutdown_event():

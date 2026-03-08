@@ -8,21 +8,20 @@ Provides:
 - Prophet forecast
 """
 
-from fastapi import APIRouter, Query
+from fastapi import APIRouter
 from prophet import Prophet
 import pandas as pd
 import yfinance as yf
 from datetime import datetime
 
-router = APIRouter(
-    tags=["Stock Dashboard"]
-)
+router = APIRouter(tags=["Stock Dashboard"])
 
 # ==========================================
-# Prophet Model Cache
+# Caches
 # ==========================================
 
 prophet_models = {}
+dashboard_cache = {}
 
 # ==========================================
 # Utility: Fetch Real-Time Data
@@ -57,17 +56,14 @@ def get_realtime_data(symbol: str):
         print(f"Error fetching {symbol}: {e}")
         return None
 
+
 # ==========================================
-# Utility: Prophet Forecast
+# Prophet Training
 # ==========================================
 
 def train_prophet_model(symbol: str):
-    """
-    Train and cache a Prophet model for the given symbol.
-    """
-    global prophet_models
 
-    print(f"🚀 Training Prophet model for {symbol}...")
+    global prophet_models
 
     ticker = yf.Ticker(symbol)
     hist = ticker.history(period="1y")
@@ -81,16 +77,8 @@ def train_prophet_model(symbol: str):
 
     prophet_models[symbol] = model
 
-    print(f"✅ Prophet model ready for {symbol}")
-
 
 def generate_prophet_forecast(symbol: str, days: int):
-    """
-    Generate Prophet forecast for next N days.
-    Model is trained only once per symbol.
-    """
-
-    global prophet_models
 
     if symbol not in prophet_models:
         train_prophet_model(symbol)
@@ -106,40 +94,52 @@ def generate_prophet_forecast(symbol: str, days: int):
 
 
 # ==========================================
+# Batch Job (Scheduler)
+# ==========================================
+
+def run_stock_dashboard_batch():
+
+    global dashboard_cache
+
+    print("📊 Updating stock dashboard...")
+
+    symbols = ["NFLX", "AMZN", "TSLA", "AAPL", "DIS"]
+
+    results = {}
+
+    for symbol in symbols:
+
+        realtime = get_realtime_data(symbol)
+
+        if realtime is None:
+            continue
+
+        forecast = generate_prophet_forecast(symbol, 30)
+
+        results[symbol] = {
+            "symbol": symbol,
+            "realtime_data": realtime,
+            "kpis": realtime,
+            "forecast": forecast,
+            "model": "Prophet"
+        }
+
+    dashboard_cache = {
+        "updated_at": datetime.utcnow(),
+        "stocks": results
+    }
+
+    print("✅ Stock dashboard updated")
+
+
+# ==========================================
 # Dashboard API Route
 # ==========================================
 
-@router.get("/api/dashboard/{symbol}")
-def get_dashboard_data(
-    symbol: str,
-    forecast_days: int = Query(30, description="Number of forecast days")
-):
-    """
-    Returns:
-    - Real-time price
-    - Change (TC)
-    - Dashboard KPIs
-    - Prophet forecast
-    """
+@router.get("/api/dashboard")
+def get_dashboard():
 
-    realtime = get_realtime_data(symbol.upper())
+    if not dashboard_cache:
+        return {"message": "Dashboard initializing..."}
 
-    if realtime is None:
-        return {"error": "No data available"}
-
-    forecast = generate_prophet_forecast(symbol.upper(), forecast_days)
-
-    response = {
-        "symbol": symbol.upper(),
-        "realtime_data": realtime,
-        "kpis": {
-            "current_price": realtime["current_price"],
-            "change": realtime["change"],
-            "percent_change": realtime["percent_change"],
-            "volume": realtime["volume"]
-        },
-        "forecast": forecast,
-        "model": "Prophet"
-    }
-
-    return response
+    return dashboard_cache

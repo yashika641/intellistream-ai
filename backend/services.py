@@ -10,7 +10,6 @@ import shap
 import numpy as np
 from datetime import datetime
 # Add parent directory to path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from database import supabase
 from churn_prediction_model import (
