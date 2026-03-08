@@ -36,13 +36,17 @@ scheduler.add_job(
     minutes=5
 )
 
+import threading
+
 @app.on_event("startup")
 def startup_event():
     if not scheduler.running:
         scheduler.start()
-        load_models()
-        load_script_success_model()
         print("✅ Scheduler started")
+
+    # Load ML models in background so server starts instantly
+    threading.Thread(target=load_models).start()
+    threading.Thread(target=load_script_success_model).start()
     
 
 @app.on_event("shutdown")
