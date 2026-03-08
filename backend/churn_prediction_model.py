@@ -44,14 +44,14 @@ from utils.file_handler import load_csv
 
 logger = get_logger("churn_model_training")
 from dotenv import load_dotenv
-BASE_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), ".")
-)
-env_path = os.path.join(BASE_DIR, ".env")
-if not os.path.exists(env_path):    
-    raise RuntimeError(f".env file not found at {env_path}")
-load_dotenv(env_path)
-print("BASE_DIR from .env:", env_path)
+# BASE_DIR = os.path.abspath(
+#     os.path.join(os.path.dirname(__file__), ".")
+# )
+# env_path = os.path.join(BASE_DIR, ".env")
+# if not os.path.exists(env_path):    
+#     raise RuntimeError(f".env file not found at {env_path}")
+load_dotenv()
+# print("BASE_DIR from .env:", env_path)
 # -----------------------------------------------------
 # 🧩 PREPROCESSING
 # -----------------------------------------------------
@@ -174,12 +174,12 @@ def train_and_evaluate_models(x_train, y_train, x_test, y_test):
                 # Log MLflow metrics
                 mlflow.log_params(model.get_params())
                 mlflow.log_metrics({
-                    "accuracy": acc,
-                    "precision": prec,
-                    "recall": rec,
-                    "f1_score": f1,
-                    "roc_auc": roc,
-                    "cv_accuracy": cv_acc
+                    "accuracy": float(acc),
+                    "precision": float(prec),
+                    "recall": float(rec),
+                    "f1_score": float(f1),
+                    "roc_auc": float(roc),
+                    "cv_accuracy": float(cv_acc)
                 })
 
                 mlflow.sklearn.log_model(model, artifact_path="model")
