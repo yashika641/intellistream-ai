@@ -106,7 +106,7 @@ def run_stock_dashboard_batch():
 
     print("📊 Updating stock dashboard...")
 
-    symbols = ["NFLX", "AMZN", "TSLA", "AAPL", "DIS"]
+    symbols = ["NFLX", "AMZN", "TSLA", "AAPL", "DIS", "WBD", "PARA"];
 
     results = {}
 
@@ -146,3 +146,23 @@ def get_dashboard():
         return {"message": "Dashboard initializing..."}
 
     return dashboard_cache
+
+from fastapi import Query
+
+@router.get("/api/dashboard/{symbol}")
+def get_stock(symbol: str, forecast_days: int = Query(30)):
+
+    if not dashboard_cache:
+        return {"message": "Dashboard initializing..."}
+
+    symbol = symbol.upper()
+
+    stock = dashboard_cache.get("stocks", {}).get(symbol)
+
+    if not stock:
+        return {"error": f"No data found for {symbol}"}
+
+    # trim forecast based on requested days
+    stock["forecast"] = stock["forecast"][:forecast_days]
+
+    return stock

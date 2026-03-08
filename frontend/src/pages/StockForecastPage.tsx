@@ -31,43 +31,44 @@ export function StockForecastPage({ onNavigate }: StockForecastPageProps) {
   const [forecastData, setForecastData] = useState<any>(null);
 
   const fetchStocks = async () => {
-  try {
-    const symbols = ["NFLX", "DIS", "WBD", "PARA"];
-const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
-    const responses = await Promise.all(
-      symbols.map(async (symbol) => {
-        const res = await fetch(
-          `${apiUrl}/api/dashboard/${symbol}?forecast_days=1`
-        );
+    try {
+      const symbols = ["NFLX", "DIS", "WBD", "PARA"];
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
+      console.log("Fetching stock data from API:", apiUrl, "for symbols:", symbols);
+      const responses = await Promise.all(
+        symbols.map(async (symbol) => {
+          const res = await fetch(
+            `${apiUrl}/api/dashboard/${symbol}?forecast_days=1`
+          );
 
-        if (!res.ok) {
-          console.error("Failed for", symbol);
-          return null;
-        }
+          if (!res.ok) {
+            console.error("Failed for", symbol);
+            return null;
+          }
 
-        return res.json();
-      })
-    );
+          return res.json();
+        })
+      );
 
-    console.log("API responses:", responses);
+      console.log("API responses:", responses);
 
-    const formatted = responses
-      .filter(Boolean)
-      .filter(data => data?.realtime_data)
-      .map(data => ({
-        symbol: data.symbol,
-        name: data.symbol,
-        price: `$${data.realtime_data.current_price}`,
-        change: `${data.realtime_data.percent_change}%`,
-        trend:
-          data.realtime_data.percent_change >= 0 ? "up" : "down"
-      }));
+      const formatted = responses
+        .filter(Boolean)
+        .filter(data => data?.realtime_data)
+        .map(data => ({
+          symbol: data.symbol,
+          name: data.symbol,
+          price: `$${data.realtime_data.current_price}`,
+          change: `${data.realtime_data.percent_change}%`,
+          trend:
+            data.realtime_data.percent_change >= 0 ? "up" : "down"
+        }));
 
-    setStocks(formatted);
-  } catch (err) {
-    console.error("Fetch error:", err);
-  }
-};
+      setStocks(formatted);
+    } catch (err) {
+      console.error("Fetch error:", err);
+    }
+  };
 
 
   useEffect(() => {
@@ -80,7 +81,7 @@ const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
     return () => clearInterval(interval);
   }, []);
 
-const apiUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+  const apiUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
   const fetchForecast = async () => {
     const res = await fetch(
       `${apiUrl}/api/dashboard/${selectedStock}?forecast_days=${forecastDays}`
@@ -92,7 +93,7 @@ const apiUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
   useEffect(() => {
     fetchForecast();
   }, [selectedStock, forecastDays, model]);
-console.log("Stocks state:", stocks);
+  console.log("Stocks state:", stocks);
   return (
     <div className="min-h-screen">
       <Navigation onNavigate={onNavigate} currentPage="Stock Market Trend Forecaster" />
@@ -171,95 +172,95 @@ console.log("Stocks state:", stocks);
                 </CardTitle>
                 <div className="flex gap-2">
                   <Button
-  size="sm"
-  variant={model === "Prophet" ? "default" : "outline"}
-  onClick={() => setModel("Prophet")}
->
-  Prophet
-</Button>
+                    size="sm"
+                    variant={model === "Prophet" ? "default" : "outline"}
+                    onClick={() => setModel("Prophet")}
+                  >
+                    Prophet
+                  </Button>
 
-<Button
-  size="sm"
-  variant={model === "ARIMA" ? "default" : "outline"}
-  onClick={() => setModel("ARIMA")}
->
-  ARIMA
-</Button>
+                  <Button
+                    size="sm"
+                    variant={model === "ARIMA" ? "default" : "outline"}
+                    onClick={() => setModel("ARIMA")}
+                  >
+                    ARIMA
+                  </Button>
 
-<Button
-  size="sm"
-  variant={model === "LSTM" ? "default" : "outline"}
-  onClick={() => setModel("LSTM")}
->
-  LSTM
-</Button>
+                  <Button
+                    size="sm"
+                    variant={model === "LSTM" ? "default" : "outline"}
+                    onClick={() => setModel("LSTM")}
+                  >
+                    LSTM
+                  </Button>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
               <div className="h-96 bg-slate-950/50 border border-slate-800 rounded-lg p-4">
-  {forecastData?.forecast ? (
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={forecastData.forecast}>
-        <CartesianGrid stroke="#1e293b" strokeDasharray="3 3" />
-        <XAxis
-          dataKey="ds"
-          tick={{ fill: "#94a3b8", fontSize: 12 }}
-          tickFormatter={(value) => value.slice(5, 10)}
-        />
-        <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }} />
-        <Tooltip
-          contentStyle={{
-            backgroundColor: "#0f172a",
-            border: "1px solid #334155",
-          }}
-          labelStyle={{ color: "#fff" }}
-        />
+                {forecastData?.forecast ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={forecastData.forecast}>
+                      <CartesianGrid stroke="#1e293b" strokeDasharray="3 3" />
+                      <XAxis
+                        dataKey="ds"
+                        tick={{ fill: "#94a3b8", fontSize: 12 }}
+                        tickFormatter={(value) => value.slice(5, 10)}
+                      />
+                      <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }} />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "#0f172a",
+                          border: "1px solid #334155",
+                        }}
+                        labelStyle={{ color: "#fff" }}
+                      />
 
-        {/* Confidence Interval Area */}
-        <Area
-          type="monotone"
-          dataKey="yhat_upper"
-          stroke="none"
-          fill="#3b82f6"
-          fillOpacity={0.1}
-        />
-        <Area
-          type="monotone"
-          dataKey="yhat_lower"
-          stroke="none"
-          fill="#3b82f6"
-          fillOpacity={0.1}
-        />
+                      {/* Confidence Interval Area */}
+                      <Area
+                        type="monotone"
+                        dataKey="yhat_upper"
+                        stroke="none"
+                        fill="#3b82f6"
+                        fillOpacity={0.1}
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="yhat_lower"
+                        stroke="none"
+                        fill="#3b82f6"
+                        fillOpacity={0.1}
+                      />
 
-        {/* Main Forecast Line */}
-        <Line
-          type="monotone"
-          dataKey="yhat"
-          stroke="#3b82f6"
-          strokeWidth={3}
-          dot={false}
-        />
-      </LineChart>
-    </ResponsiveContainer>
-  ) : (
-    <div className="flex items-center justify-center h-full text-slate-500">
-      Loading forecast...
-    </div>
-  )}
-</div>
+                      {/* Main Forecast Line */}
+                      <Line
+                        type="monotone"
+                        dataKey="yhat"
+                        stroke="#3b82f6"
+                        strokeWidth={3}
+                        dot={false}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-slate-500">
+                    Loading forecast...
+                  </div>
+                )}
+              </div>
               <div className="grid grid-cols-4 gap-4 mt-6">
                 <div className="p-4 rounded-lg bg-slate-800/50 text-center">
                   <p className="text-slate-400 mb-1">Current Price</p>
                   <p className="text-white">
-  ${forecastData?.realtime_data?.current_price}
-</p>
+                    ${forecastData?.realtime_data?.current_price}
+                  </p>
                 </div>
                 <div className="p-4 rounded-lg bg-slate-800/50 text-center">
                   <p className="text-slate-400 mb-1">Predicted (30d)</p>
                   <p className="text-green-400">
-  ${forecastData?.forecast?.[forecastData.forecast.length - 1]?.yhat?.toFixed(2)}
-</p>
+                    ${forecastData?.forecast?.[forecastData.forecast.length - 1]?.yhat?.toFixed(2)}
+                  </p>
                 </div>
                 <div className="p-4 rounded-lg bg-slate-800/50 text-center">
                   <p className="text-slate-400 mb-1">Confidence</p>
@@ -268,13 +269,13 @@ console.log("Stocks state:", stocks);
                 <div className="p-4 rounded-lg bg-slate-800/50 text-center">
                   <p className="text-slate-400 mb-1">Expected Gain</p>
                   <p className="text-green-400">
-  {(
-    ((forecastData?.forecast?.[forecastData.forecast.length - 1]?.yhat -
-      forecastData?.realtime_data?.current_price)
-      / forecastData?.realtime_data?.current_price) *
-    100
-  ).toFixed(2)}%
-</p>
+                    {(
+                      ((forecastData?.forecast?.[forecastData.forecast.length - 1]?.yhat -
+                        forecastData?.realtime_data?.current_price)
+                        / forecastData?.realtime_data?.current_price) *
+                      100
+                    ).toFixed(2)}%
+                  </p>
                 </div>
               </div>
             </CardContent>
