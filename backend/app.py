@@ -15,7 +15,6 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from routes import churn, recommender ,script_predictor, stock, sentiment
 from services import run_churn_batch
 from routes.model_loaders import load_models , load_script_success_model
-from routes.stock import run_stock_dashboard_batch
 
 
 # --------------------------------------------------
@@ -33,11 +32,7 @@ app = FastAPI(
 scheduler = BackgroundScheduler(daemon=True)
 scheduler.add_job(run_churn_batch, "interval", hours=24)  # Run every 24 hours
 # Stock dashboard job every 5 minutes
-scheduler.add_job(
-    run_stock_dashboard_batch,
-    "interval",
-    minutes=5
-)
+
 
 
 import threading

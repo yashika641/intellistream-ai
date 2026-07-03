@@ -32,7 +32,7 @@ export function StockForecastPage({ onNavigate }: StockForecastPageProps) {
 
   const fetchStocks = async () => {
     try {
-      const symbols = ["NFLX", "DIS", "WBD", "PARA"];
+      const symbols = ["NFLX", "DIS", "WBD", "PARA", "CMCSA", "T", "VZ", "SIRI", "IPG", "OMC"];
       const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
       console.log("Fetching stock data from API:", apiUrl, "for symbols:", symbols);
       const responses = await Promise.all(
